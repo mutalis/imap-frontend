@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import DomainBox from './DomainBox/DomainBox';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <DomainBox />,
   document.getElementById('root')
 );
