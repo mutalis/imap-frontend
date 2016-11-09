@@ -1,5 +1,5 @@
 
-function search(query) {
+function search(url) {
   let requestHeaders = new Headers();
 
   requestHeaders.append('Content-Type', 'application/json');
@@ -10,7 +10,7 @@ function search(query) {
               //  mode: 'cors',
                cache: 'default' };
   // return fetch(`/api/food?q=${query}`, {
-  return fetch(`/v2/domains/?q=${query}`, requestSettings).then(checkStatus)
+  return fetch(url, requestSettings).then(checkStatus)
     .then(parseJSON);
 }
 

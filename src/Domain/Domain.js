@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Client from '../Client';
+import { Link } from 'react-router';
 
 class Domain extends Component {
 
@@ -11,11 +11,12 @@ class Domain extends Component {
   render() {
     return(
       <div className="domain">
-        <p>{this.props.name}</p>
-        <p>{this.props.quota}</p>
-        <button id="delete-domain-button" onClick={this._handleDelete}>Delete</button>
-        <button id="delete-domain-button" onClick={this._handleDelete}>Emails</button>
-        <hr></hr>
+        <ul>
+          <li>{this.props.name}</li>
+          <li>{this.props.quota}</li>
+          <li><Link to={`/${this.props.name}/${this.props.id}`}>Emails</Link></li>
+          <li><button id="delete-domain-button" onClick={this._handleDelete}>Delete</button></li>
+        </ul>
       </div>
     );
   }

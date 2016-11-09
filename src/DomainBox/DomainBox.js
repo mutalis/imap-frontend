@@ -15,7 +15,7 @@ class DomainBox extends Component {
   }
 
   componentWillMount() {
-    this._fetchDomains();
+    this._fetchDomains('/v2/domains');
   }
 
   render() {
@@ -31,9 +31,8 @@ class DomainBox extends Component {
     );
   }
 
-  _fetchDomains() {
-    let query = ''
-    Client.search(query).then((domains) => (
+  _fetchDomains(url) {
+    Client.search(url).then((domains) => (
         this.setState({
           domains : domains
         })
@@ -51,11 +50,11 @@ class DomainBox extends Component {
     });
   }
 
-  _deleteDomain(domainID) {
+  _deleteDomain(domainId) {
     const domains = this.state.domains.filter(
-      domain => domain.id !== domainID
+      domain => domain.id !== domainId
     );
-    console.log(domainID);
+    console.log(domainId);
     this.setState({ domains });
   }
 }
