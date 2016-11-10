@@ -25,7 +25,6 @@ class DomainBox extends Component {
         <div className="domain-list">
           {domains}
         </div>
-        <p>{console.log(this.state.domains)}</p>
         <p>SSS</p>
       </div>
     );
@@ -54,7 +53,7 @@ class DomainBox extends Component {
     const domains = this.state.domains.filter(
       domain => domain.id !== domainId
     );
-    console.log(domainId);
+    // console.log(domainId);
     this.setState({ domains });
   }
 }

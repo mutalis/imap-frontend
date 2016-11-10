@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Email from '../Email/Email';
+import EmailForm from '../EmailForm/EmailForm';
 import Client from '../Client';
 
 class EmailBox extends Component {
@@ -10,6 +11,7 @@ class EmailBox extends Component {
     this.state = {
       emails: []
     };
+
   }
 
   componentWillMount() {
@@ -17,17 +19,6 @@ class EmailBox extends Component {
     // console.log(this.props.params.domainName)
     // console.log(this.props.location.pathname)
     // console.log(this.props)
-  }
-
-  render() {
-    const emails = this._getEmails();
-    return (
-      <div className="EmailBox">
-        <div className="email-list">
-          {emails}
-        </div>
-      </div>
-    );
   }
 
   _fetchEmails(url) {
@@ -55,6 +46,26 @@ class EmailBox extends Component {
     );
     // console.log(emailId);
     this.setState({ emails });
+  }
+
+  _addEmail(email) {
+    // console.log(email);
+    const emails = this.state.emails;
+    email.id = emails.length + 1;
+    const newEmails = emails.concat([email]);
+    this.setState({ emails: newEmails });
+  }
+
+  render() {
+    const emails = this._getEmails();
+    return (
+      <div className="EmailBox">
+        <EmailForm addEmail={this._addEmail.bind(this)} />
+        <div className="email-list">
+          {emails}
+        </div>
+      </div>
+    );
   }
 }
 
