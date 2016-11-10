@@ -24,7 +24,7 @@ class EmailForm extends Component {
       return;
     }
 
-    this.props.addEmail({ username: username, quota: quota, password: password });
+    this.props.addEmail({ username: username, quota: quota, password: password, domain_id: this.props.domainId});
 
     this.setState({
       id: '',

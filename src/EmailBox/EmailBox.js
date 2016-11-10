@@ -22,7 +22,7 @@ class EmailBox extends Component {
   }
 
   _fetchEmails(url) {
-    Client.search(url).then((emails) => (
+    Client.getEntries(url).then((emails) => (
         this.setState({
           emails : emails
         })
@@ -49,18 +49,20 @@ class EmailBox extends Component {
   }
 
   _addEmail(email) {
-    // console.log(email);
-    const emails = this.state.emails;
-    email.id = emails.length + 1;
-    const newEmails = emails.concat([email]);
-    this.setState({ emails: newEmails });
+    Client.addEntry(`/v2/domains/${this.props.params.domainId}/emails`, email).then((email) => (
+      this.setState({
+        emails : this.state.emails.concat([email])
+      })
+    ));
   }
 
   render() {
     const emails = this._getEmails();
     return (
       <div className="EmailBox">
-        <EmailForm addEmail={this._addEmail.bind(this)} />
+        <EmailForm
+          domainId={`${this.props.params.domainId}`}
+          addEmail={this._addEmail.bind(this)} />
         <div className="email-list">
           {emails}
         </div>

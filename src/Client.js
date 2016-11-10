@@ -1,8 +1,8 @@
 
-function search(url) {
+function getEntries(url) {
   let requestHeaders = new Headers();
 
-  requestHeaders.append('Content-Type', 'application/json');
+  requestHeaders.append('Accept', 'application/json');
   requestHeaders.append('Authorization', 'Token token=e8a947943367d7f358794f6141ece2ca');
 
   let requestSettings = { method: 'GET',
@@ -13,6 +13,26 @@ function search(url) {
   return fetch(url, requestSettings).then(checkStatus)
     .then(parseJSON);
 }
+
+function addEntry(url, bodyData) {
+
+  let payload = JSON.stringify(bodyData);
+  let requestHeaders = new Headers();
+
+  requestHeaders.append('Content-Type', 'application/json; charset=utf-8');
+  requestHeaders.append('Authorization', 'Token token=e8a947943367d7f358794f6141ece2ca');
+
+  let requestSettings = { method: 'POST',
+               headers: requestHeaders,
+               body: payload,
+              //  body: '{ "username": "aaaab", "quota": 200, "password": "12345678", "domain_id": "0af0f599-307b-4b28-9d7b-6ca9cfc4e821"}',
+               cache: 'default' };
+
+  let myRequest = new Request(url, requestSettings);
+  return fetch(myRequest).then(checkStatus)
+    .then(parseJSON);
+}
+
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -30,5 +50,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { search };
+const Client = { getEntries, addEntry };
 export default Client;

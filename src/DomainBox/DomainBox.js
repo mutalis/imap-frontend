@@ -31,7 +31,7 @@ class DomainBox extends Component {
   }
 
   _fetchDomains(url) {
-    Client.search(url).then((domains) => (
+    Client.getEntries(url).then((domains) => (
         this.setState({
           domains : domains
         })
