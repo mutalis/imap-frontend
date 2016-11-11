@@ -33,6 +33,18 @@ function addEntry(url, bodyData) {
     .then(parseJSON);
 }
 
+function deleteEntry(url) {
+  let requestHeaders = new Headers();
+
+  requestHeaders.append('Accept', 'application/json');
+  requestHeaders.append('Authorization', 'Token token=e8a947943367d7f358794f6141ece2ca');
+
+  let requestSettings = { method: 'DELETE',
+               headers: requestHeaders,
+               cache: 'default' };
+
+  return fetch(url, requestSettings).then(checkStatus);
+}
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -50,5 +62,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getEntries, addEntry };
+const Client = { getEntries, addEntry, deleteEntry };
 export default Client;

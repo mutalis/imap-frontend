@@ -41,11 +41,12 @@ class EmailBox extends Component {
   }
 
   _deleteEmail(emailId) {
-    const emails = this.state.emails.filter(
-      email => email.id !== emailId
-    );
-    // console.log(emailId);
-    this.setState({ emails });
+    Client.deleteEntry(`/v2/emails/${emailId}`).then(() => {
+      const emails = this.state.emails.filter(
+        email => email.id !== emailId
+      );
+      this.setState({ emails });
+    });
   }
 
   _addEmail(email) {
