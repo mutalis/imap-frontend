@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Email from '../Email/Email';
 import EmailForm from '../EmailForm/EmailForm';
 import Client from '../Client';
+import { Navbar, Nav, NavItem, Table } from 'react-bootstrap';
 
 class EmailBox extends Component {
 
@@ -60,13 +61,32 @@ class EmailBox extends Component {
   render() {
     const emails = this._getEmails();
     return (
-      <div className="EmailBox">
+      <div className="email-box">
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">Email Admin</a>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav>
+            <NavItem eventKey={1} href="/">Domains</NavItem>
+          </Nav>
+        </Navbar>
         <EmailForm
           domainId={`${this.props.params.domainId}`}
           addEmail={this._addEmail.bind(this)} />
-        <div className="email-list">
-          {emails}
-        </div>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Quota Used</th>
+              <th colspan="2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {emails}
+          </tbody>
+        </Table>
       </div>
     );
   }

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import DomainBox from './DomainBox/DomainBox';
 import EmailBox from './EmailBox/EmailBox';
 import { Router, Route, browserHistory } from 'react-router';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
 
 ReactDOM.render((
   <Router history={browserHistory}>

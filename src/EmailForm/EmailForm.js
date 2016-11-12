@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 
 class EmailForm extends Component {
 
@@ -9,7 +10,8 @@ class EmailForm extends Component {
       id: '',
       username: '',
       quota: '',
-      password: ''
+      password: '',
+      showModal: false
     };
   }
 
@@ -30,7 +32,8 @@ class EmailForm extends Component {
       id: '',
       username: '',
       quota: '',
-      password: ''
+      password: '',
+      showModal: false
     });
   }
 
@@ -46,20 +49,53 @@ class EmailForm extends Component {
     this.setState({ password: e.target.value });
   }
 
+  _open() {
+    this.setState({ showModal: true });
+  }
+
+  _close() {
+    this.setState({ showModal: false });
+  }
+
   render() {
     return (
-      <form className="email-form" onSubmit={this._handleSubmit.bind(this)}>
-        <label>New Email Account</label>
-        <div className="email-form-fields">
-          <input type="text" placeholder="email username" value={this.state.username} onChange={this._handleUsernameChange.bind(this)} />
-          <input type="text" placeholder="quota" value={this.state.quota} onChange={this._handleQuotaChange.bind(this)} />
-          <input type="text" placeholder="password" value={this.state.password} onChange={this._handlePasswordChange.bind(this)} />
-        </div>
-        <div className="email-form-actions">
-          <input id="add-email-button" type="submit" value="Add Email" />
+      <div className="email-form">
+        <Button bsStyle="success" onClick={this._open.bind(this)}>New Email</Button>
 
-        </div>
-      </form>
+        <Modal show={this.state.showModal} onHide={this._close.bind(this)}>
+          <Modal.Header closeButton>
+            <Modal.Title>New Email Account</Modal.Title>
+          </Modal.Header>
+
+          <form onSubmit={this._handleSubmit.bind(this)}>
+            <FormGroup>
+              <Modal.Body>
+                <FormControl
+                  type="text"
+                  placeholder="email username"
+                  value={this.state.username}
+                  onChange={this._handleUsernameChange.bind(this)}
+                />
+                <FormControl
+                  type="text"
+                  placeholder="quota"
+                  value={this.state.quota}
+                  onChange={this._handleQuotaChange.bind(this)}
+                />
+                <FormControl
+                  type="password"
+                  placeholder="password"
+                  value={this.state.password}
+                  onChange={this._handlePasswordChange.bind(this)}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button bsStyle="success" type="submit">Add Email</Button>
+              </Modal.Footer>
+            </FormGroup>
+          </form>
+        </Modal>
+      </div>
     );
   }
 

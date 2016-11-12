@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Button } from 'react-bootstrap';
 
 class Domain extends Component {
 
@@ -10,14 +11,16 @@ class Domain extends Component {
 
   render() {
     return(
-      <div className="domain">
-        <ul>
-          <li>{this.props.name}</li>
-          <li>{this.props.quota}</li>
-          <li><Link to={`/${this.props.name}/${this.props.id}`}>Emails</Link></li>
-          <li><button id="delete-domain-button" onClick={this._handleDelete}>Delete</button></li>
-        </ul>
-      </div>
+        <tr>
+          <td>{this.props.name}</td>
+          <td>{this.props.quota}</td>
+          <td>
+            <LinkContainer
+              to={`/${this.props.name}/${this.props.id}`}><Button>Emails</Button>
+            </LinkContainer>
+          </td>
+          <td><Button bsStyle="danger" onClick={this._handleDelete}>Delete</Button></td>
+        </tr>
     );
   }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 
 class Email extends Component {
 
@@ -8,13 +9,11 @@ class Email extends Component {
 
   render() {
     return(
-      <div className="email">
-        <ul>
-          <li>{this.props.email}</li>
-          <li>{this.props.quota}</li>
-          <li><button id="delete-email-button" onClick={this._handleDelete.bind(this)}>Delete</button></li>
-        </ul>
-      </div>
+        <tr>
+          <td>{this.props.email}</td>
+          <td>{this.props.quota}</td>
+          <td><Button bsStyle="danger" onClick={this._handleDelete.bind(this)}>Delete</Button></td>
+        </tr>
     )
   }
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Client from '../Client';
 import Domain from '../Domain/Domain';
-// import logo from '../logo.svg';
-// import '../App.css';
+import { Navbar, Table } from 'react-bootstrap';
 
 class DomainBox extends Component {
 
@@ -22,10 +21,25 @@ class DomainBox extends Component {
     const domains = this._getDomains();
     return (
       <div className="domain-box">
-        <div className="domain-list">
-          {domains}
-        </div>
-        <p>SSS</p>
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="/">Email Admin</a>
+            </Navbar.Brand>
+          </Navbar.Header>
+        </Navbar>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Quota Used</th>
+              <th colspan="2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {domains}
+          </tbody>
+        </Table>
       </div>
     );
   }
