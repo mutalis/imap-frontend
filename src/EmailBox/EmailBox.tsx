@@ -1,46 +1,48 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+
 import Email from '../Email/Email';
+
 import EmailForm from '../EmailForm/EmailForm';
+
 import Client from '../Client';
+
 import { Navbar, Nav, NavItem, Table } from 'react-bootstrap';
 
-class EmailBox extends Component {
+export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
 
   constructor() {
     super();
 
     this.state = {
-      emails: []
+      emails: [{key: '1', username: 'user1', quota: '11'}, {key: '2', username: 'user2', quota: '22'}]
     };
 
   }
 
   componentWillMount() {
-    this._fetchEmails(`/v2/domains/${this.props.params.domainId}/emails`);
-    // console.log(this.props.params.domainName)
-    // console.log(this.props.location.pathname)
-    // console.log(this.props)
+    //this.fetchEmails(`/v2/domains/${this.props.domainId}/emails`);
+    this.fetchEmails('http://api.example.com:3000/v2/domains/0af0f599-307b-4b28-9d7b-6ca9cfc4e821/emails');
+    console.log(this.props)
   }
 
-  _fetchEmails(url) {
-    Client.getEntries(url).then((emails) => (
-        this.setState({
-          emails : emails
-        })
-    ));
-  }
-
-  _getEmails() {
-    return this.state.emails.map((email) => {
-      return <Email
-               key={email.id}
-               id={email.id}
-               email={`${email.username}@${this.props.params.domainName}`}
-               quota={email.quota}
-               onDelete={this._deleteEmail.bind(this)} />
+  fetchEmails(url:string) {
+    Client.getEntries(url).then((emails:any) => {
+      this.setState({
+        emails : emails
+      })
     });
   }
 
+  getEmails() {
+    return this.state.emails.map((email) => {
+      return <Email
+               key={email.key}
+               username={email.username}
+               quota={email.quota}
+             />
+    });
+  }
+/*
   _deleteEmail(emailId) {
     Client.deleteEntry(`/v2/emails/${emailId}`).then(() => {
       const emails = this.state.emails.filter(
@@ -49,17 +51,17 @@ class EmailBox extends Component {
       this.setState({ emails });
     });
   }
-
-  _addEmail(email) {
-    Client.addEntry(`/v2/domains/${this.props.params.domainId}/emails`, email).then((email) => (
+*/
+  addEmail(email:IEmail) {
+    /*Client.addEntry(`/v2/domains/${this.props.domainId}/emails`, email).then((email:IEmail) => (
       this.setState({
         emails : this.state.emails.concat([email])
       })
-    ));
+    ));*/
   }
 
   render() {
-    const emails = this._getEmails();
+    const emails = this.getEmails();
     return (
       <div className="email-box">
         <Navbar>
@@ -69,18 +71,17 @@ class EmailBox extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem eventKey={1} href="/">Domains</NavItem>
           </Nav>
         </Navbar>
         <EmailForm
-          domainId={`${this.props.params.domainId}`}
-          addEmail={this._addEmail.bind(this)} />
+          domainId={`${this.props.domainId}`}
+          addEmail={this.addEmail.bind(this)} />
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>Email</th>
               <th>Quota Used</th>
-              <th colspan="2"></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -91,5 +92,3 @@ class EmailBox extends Component {
     );
   }
 }
-
-export default EmailBox;

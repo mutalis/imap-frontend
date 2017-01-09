@@ -1,0 +1,45 @@
+npm list -g --depth=0
+
+https://github.com/typings/typings
+
+npm install typings -g
+
+
+# Search for definitions.
+typings search react
+
+# Find a definition by name.
+typings search --name react
+
+# If you use the package as a module:
+# Install non-global typings (defaults to "npm" source, configurable through `defaultSource` in `.typingsrc`).
+typings install debug --save
+
+
+
+typings search --name react-bootstrap
+
+typings search bootstrap
+
+
+typings install react-bootstrap --save
+
+typings install react-bootstrap=github:react-bootstrap/react-bootstrap-typescript/index.d.ts --save
+
+
+
+
+npm install whatwg-fetch --save
+
+https://www.npmjs.com/~types
+
+https://www.npmjs.com/package/@types/whatwg-fetch
+
+npm install --save @types/whatwg-fetch
+
+npm uninstall @types/whatwg-fetch
+
+npm i --save @types/promise
+
+
+npm install --save isomorphic-fetch es6-promise
