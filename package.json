@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/axios": "^0.9.34",
     "@types/react": "^0.14.55",
     "@types/react-dom": "^0.14.19",
+    "axios": "^0.15.3",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1"

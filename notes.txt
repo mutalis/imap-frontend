@@ -43,3 +43,53 @@ npm i --save @types/promise
 
 
 npm install --save isomorphic-fetch es6-promise
+
+
+
+
+
+==========
+Problem:
+
+const foo = { a: "one", b: "two" };
+
+for (const key in foo) {
+  console.log(foo[key]); // Error: foo has no index signature
+}
+
+
+== Fix:
+
+interface ISomeObject {
+    [key: string]: string;
+}
+
+let foo: ISomeObject = {
+    a: "one",
+    b: "two"
+};
+
+for (let key in foo) {
+    console.log(foo[key]); 
+}
+
+==========
+
+axios.get(url)
+      .then((response:AxiosResponse) => {
+        let emails:Array<IEmailBoxState> = [];
+        //const emailsHash:ISomeHash = { a: "one", b: "two" };
+
+        const emailsHash:ISomeHash = response.data;
+        for (let key in emailsHash) {
+          const email = emailsHash[key];
+          console.log(email);
+          const nel = [ {key: email.id, username: email.username, quota: email.quota}];
+          let otro:Array<IEmailBoxState> = [nel,nel];
+
+          emails.concat([{key: email.id, username: email.username, quota: email.quota}]);
+          emails.concat(nel);
+          
+        }
+      })
+      

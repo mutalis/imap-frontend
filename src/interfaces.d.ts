@@ -24,8 +24,13 @@ interface IEmailProps {
   quota: string;
 }
 
+interface IEmailPropsArray {
+  //[index: number]: IEmailProps;
+}
+
 // Defines the interface of the state of the EmailBox component
 interface IEmailBoxState {
+  //emails: IEmailPropsArray;
   emails: Array<IEmailProps>;
 }
 
@@ -44,4 +49,8 @@ interface IEmailFormState {
   quota: string;
   password: string;
   showModal: boolean;
+}
+
+interface ISomeHash {
+    [key: string]: string;
 }
