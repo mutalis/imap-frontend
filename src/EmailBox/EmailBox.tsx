@@ -49,8 +49,6 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     let emails: Array<IEmailProps> = [];
 
     const config: AxiosRequestConfig = {
-      //url: url,
-      //method: 'get',
       responseType: 'json',
       headers: {
         'Accept': 'application/json'
@@ -69,10 +67,6 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
         this.setState({ emails: emails });
       })
       .catch(this.handleError);
-    /*
-        Client.getEntries(url).then((emails) => (
-            this.setState({emails: emails})
-        ));*/
   }
 
   getEmails() {
@@ -94,26 +88,24 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     });
   }
 */
-/*
-  addEmail(email:IEmail) {
-    axios.post(`/v2/domains/${this.props.domainId}/emails`, email)
-      .then((response) => {
-        //let newEmail:IEmailProps = {key: email.username, username: email.username, quota: email.quota};
-        this.setState({emails: this.state.emails.concat([{key: email.username, username: email.username, quota: email.quota}])});
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 
-    /*Client.addEntry(`/v2/domains/${this.props.domainId}/emails`, email).then((email:IEmail) => (
-      this.setState({
-        emails : this.state.emails.concat([email])
+  addEmail(email: IEmail) {
+    let payload = JSON.stringify(email);
+
+    const config: AxiosRequestConfig = {
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    };
+    axios.post(`/v2/domains/${this.props.domainId}/emails`, payload, config)
+      .then((response: AxiosResponse) => {
+        let newEmail:IEmailProps = { key: response.data.id, username: response.data.username, quota: response.data.quota };
+        this.setState({ emails: this.state.emails.concat([newEmail]) });
       })
-    ));
+      .catch(this.handleError);
   }
-*/
-addEmail(email:IEmail) {}
 
   render() {
     const emails = this.getEmails();

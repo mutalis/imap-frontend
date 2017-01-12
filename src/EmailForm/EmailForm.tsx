@@ -26,7 +26,7 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
       return;
     }
 
-    this.props.addEmail({ username: username, quota: quota, password: password, domainId: this.props.domainId });
+    this.props.addEmail({ username: username, quota: quota, password: password, domain_id: this.props.domainId });
 
     this.setState({
       username: '',
@@ -91,7 +91,7 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
                 <InputGroup.Addon>@{this.props.domainName}</InputGroup.Addon>
                 </InputGroup>
                 <FormControl
-                  type="text"
+                  type="password"
                   placeholder="password"
                   value={this.state.quota}
                   onChange={this.handleQuotaChange.bind(this)}
