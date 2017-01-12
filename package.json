@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/axios": "^0.9.34",
     "@types/react": "^0.14.55",
     "@types/react-dom": "^0.14.19",
     "axios": "^0.15.3",

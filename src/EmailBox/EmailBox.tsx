@@ -1,64 +1,78 @@
 import * as React from 'react';
 
-import axios from 'axios';
-
 import Email from '../Email/Email';
 
 import EmailForm from '../EmailForm/EmailForm';
 
-//import Client from '../Client';
-
 import { Navbar, Nav, NavItem, Table } from 'react-bootstrap';
+
+import axios, {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  AxiosInstance,
+  AxiosAdapter,
+  Cancel,
+  CancelToken,
+  CancelTokenSource,
+  Canceler
+} from 'axios';
 
 export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
 
   constructor() {
     super();
-
-/*    this.state = {
-      emails: [{key: '1', username: 'user1', quota: '11'}, {key: '2', username: 'user2', quota: '22'}]
-    };*/
-
     this.state = {
       emails: []
     };
-
+    // Defaults
+    axios.defaults.baseURL = 'http://api.example.com:3000';
+    axios.defaults.headers.common['Authorization'] = 'Token token=e8a947943367d7f358794f6141ece2ca';
   }
 
   componentWillMount() {
-    //this.fetchEmails(`/v2/domains/${this.props.domainId}/emails`);
-    this.fetchEmails('http://api.example.com:3000/v2/domains/0af0f599-307b-4b28-9d7b-6ca9cfc4e821/emails');
-    console.log(this.props);
+    this.fetchEmails(`/v2/domains/${this.props.domainId}/emails`);
+  }
+
+  handleError(error: AxiosError) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else {
+      console.log(error.message);
+    }
+    console.log(error.config);
   }
 
   fetchEmails(url:string) {
-    axios.get(url)
-      .then((response) => {
-        const emailsHash:any = response.data;
-        let emails:Array<IEmailProps> = [];
-        //let emails:IEmailPropsArray = [];
-        
+    let emails: Array<IEmailProps> = [];
+
+    const config: AxiosRequestConfig = {
+      //url: url,
+      //method: 'get',
+      responseType: 'json',
+      headers: {
+        'Accept': 'application/json'
+      }
+    };
+
+    axios.get(url, config)
+      .then((response: AxiosResponse) => {
+        const emailsHash: any = response.data;
+
         for (let emailEntry of emailsHash) {
           //const emailEntry = emailsHash[key];
           //emails[Number(key)] = {key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota};
-          emails.push({key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota});
+          emails.push({ key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota });
         }
-        this.setState({emails: emails});
-        console.log(emails);
+        this.setState({ emails: emails });
       })
-      .catch((response) => {
-        if (response instanceof Error) {
-          // Something happened in setting up the request that triggered an Error
-          // console.log('Error:', response.message);
-        } else {
-          // The request was made, but the server responded with a status code
-          // that falls out of the range of 2xx
-          // console.log(response.data);
-          // console.log(response.status);
-          // console.log(response.headers);
-          // console.log(response.config);
-        }
-      });
+      .catch(this.handleError);
+    /*
+        Client.getEntries(url).then((emails) => (
+            this.setState({emails: emails})
+        ));*/
   }
 
   getEmails() {
@@ -80,13 +94,26 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     });
   }
 */
+/*
   addEmail(email:IEmail) {
+    axios.post(`/v2/domains/${this.props.domainId}/emails`, email)
+      .then((response) => {
+        //let newEmail:IEmailProps = {key: email.username, username: email.username, quota: email.quota};
+        this.setState({emails: this.state.emails.concat([{key: email.username, username: email.username, quota: email.quota}])});
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     /*Client.addEntry(`/v2/domains/${this.props.domainId}/emails`, email).then((email:IEmail) => (
       this.setState({
         emails : this.state.emails.concat([email])
       })
-    ));*/
+    ));
   }
+*/
+addEmail(email:IEmail) {}
 
   render() {
     const emails = this.getEmails();
@@ -102,12 +129,14 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
           </Nav>
         </Navbar>
         <EmailForm
-          domainId={`${this.props.domainId}`}
+          domainId={this.props.domainId}
+          domainName={this.props.domainName}
           addEmail={this.addEmail.bind(this)} />
+        <h4>Domain Name: {this.props.domainName}</h4>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Email</th>
+              <th>Username</th>
               <th>Quota Used</th>
               <th></th>
             </tr>

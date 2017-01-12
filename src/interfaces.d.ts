@@ -37,10 +37,12 @@ interface IEmailBoxState {
 // Defines the interface of the properties of the EmailBox component
 interface IEmailBoxProps {
   domainId: string;
+  domainName: string;
 }
 
 interface IEmailFormProps {
   domainId: string;
+  domainName: string;
   addEmail: (email: IEmail) => void;
 }
 

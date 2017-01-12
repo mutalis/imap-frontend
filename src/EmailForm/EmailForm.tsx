@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Modal, FormGroup, FormControl, Button, InputGroup } from 'react-bootstrap';
 
 export default class EmailForm extends React.Component<IEmailFormProps, IEmailFormState> {
 
@@ -81,21 +81,24 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
           <form onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId="1">
               <Modal.Body>
+                <InputGroup>
                 <FormControl
                   type="text"
                   placeholder="email username"
                   value={this.state.username}
                   onChange={this.handleUsernameChange.bind(this)}
                 />
+                <InputGroup.Addon>@{this.props.domainName}</InputGroup.Addon>
+                </InputGroup>
                 <FormControl
                   type="text"
-                  placeholder="quota"
+                  placeholder="password"
                   value={this.state.quota}
                   onChange={this.handleQuotaChange.bind(this)}
                 />
                 <FormControl
                   type="password"
-                  placeholder="password"
+                  placeholder="confirm password"
                   value={this.state.password}
                   onChange={this.handlePasswordChange.bind(this)}
                 />
