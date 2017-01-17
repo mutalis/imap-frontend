@@ -82,13 +82,13 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
             <FormGroup controlId="1">
               <Modal.Body>
                 <InputGroup>
-                <FormControl
-                  type="text"
-                  placeholder="email username"
-                  value={this.state.username}
-                  onChange={this.handleUsernameChange.bind(this)}
-                />
-                <InputGroup.Addon>@{this.props.domainName}</InputGroup.Addon>
+                  <FormControl
+                    type="text"
+                    placeholder="email username"
+                    value={this.state.username}
+                    onChange={this.handleUsernameChange.bind(this)}
+                  />
+                  <InputGroup.Addon>@{this.props.domainName}</InputGroup.Addon>
                 </InputGroup>
                 <FormControl
                   type="password"

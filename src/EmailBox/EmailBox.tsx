@@ -46,7 +46,7 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
   }
 
   fetchEmails(url:string) {
-    let emails: Array<IEmailProps> = [];
+    let emails: Array<IEmailBox> = [];
 
     const config: AxiosRequestConfig = {
       responseType: 'json',
@@ -57,9 +57,9 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
 
     axios.get(url, config)
       .then((response: AxiosResponse) => {
-        const emailsHash: any = response.data;
+        const emailsResponse: any = response.data;
 
-        for (let emailEntry of emailsHash) {
+        for (let emailEntry of emailsResponse) {
           //const emailEntry = emailsHash[key];
           //emails[Number(key)] = {key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota};
           emails.push({ key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota });
@@ -73,8 +73,9 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     return this.state.emails.map((email) => {
       return <Email
                key={email.key}
+               emailId={email.key}
                username={email.username}
-               quota={email.quota}
+               quota={email.quota} 
              />
     });
   }
@@ -101,7 +102,7 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     };
     axios.post(`/v2/domains/${this.props.domainId}/emails`, payload, config)
       .then((response: AxiosResponse) => {
-        let newEmail:IEmailProps = { key: response.data.id, username: response.data.username, quota: response.data.quota };
+        let newEmail:IEmailBox = { key: response.data.id, username: response.data.username, quota: response.data.quota };
         this.setState({ emails: this.state.emails.concat([newEmail]) });
       })
       .catch(this.handleError);

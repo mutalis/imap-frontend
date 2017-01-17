@@ -19,6 +19,13 @@ interface IEmail {
 
 // Defines the interface of the properties of the Email component
 interface IEmailProps {
+  emailId: string; 
+  username: string;
+  quota: string;
+  //changePwd: (password: string, domainId: string) => void;
+}
+
+interface IEmailBox {
   key: string; 
   username: string;
   quota: string;
@@ -31,7 +38,7 @@ interface IEmailPropsArray {
 // Defines the interface of the state of the EmailBox component
 interface IEmailBoxState {
   //emails: IEmailPropsArray;
-  emails: Array<IEmailProps>;
+  emails: Array<IEmailBox>;
 }
 
 // Defines the interface of the properties of the EmailBox component
@@ -49,6 +56,16 @@ interface IEmailFormProps {
 interface IEmailFormState {
   username: string;
   quota: string;
+  password: string;
+  showModal: boolean;
+}
+
+interface IEmailPwdProps {
+  emailId: string;
+  username: string;
+}
+
+interface IEmailPwdState {
   password: string;
   showModal: boolean;
 }
