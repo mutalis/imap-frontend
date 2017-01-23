@@ -21,7 +21,12 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
 
     this.state = {
       password: '',
-      showModal: false
+      passwordConfirmation: '',
+      showModal: false,
+      pwdValidationState: null,
+      confirmationValidationState: null,
+      validationMessage: '',
+      disableSubmit: true
     };
     // Defaults
     axios.defaults.baseURL = 'http://api.example.com:3000';
@@ -41,8 +46,7 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
 
   handleSubmit(event: any) {
     event.preventDefault();
-
-    const password = this.state.password.trim();
+    const password = this.state.password;
 
     if (!password) {
       return;
@@ -66,14 +70,36 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
 
       this.setState({
         password: '',
-        showModal: false
+        passwordConfirmation: '',
+        showModal: false,
+        pwdValidationState: null,
+        confirmationValidationState: null,
+        validationMessage: '',
+        disableSubmit: true
       });
     }
   }
 
   handlePasswordChange(e: any) {
-    let newState:IEmailPwdState = this.state;
-    newState.password = e.target.value;
+    let newState: IEmailPwdState = this.state;
+    if (e.target.id == 'pwd') {
+      newState.password = e.target.value.trim();
+      newState.pwdValidationState = this.setValidationState(newState.password);
+    } else {
+      newState.passwordConfirmation = e.target.value.trim();
+      newState.confirmationValidationState = this.setValidationState(newState.passwordConfirmation);
+    }
+    console.log(newState.password);
+    console.log(newState.passwordConfirmation);
+    if (newState.password != newState.passwordConfirmation) {
+      newState.validationMessage = 'Passwords must match.';
+      newState.disableSubmit = true;
+    } else {
+      newState.validationMessage = '';
+      if (newState.pwdValidationState == 'success' && newState.confirmationValidationState == 'success') {
+        newState.disableSubmit = false;
+      }
+    }
     this.setState(newState);
   }
 
@@ -89,6 +115,15 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
     this.setState(newState);
   }
 
+  setValidationState(pwd: string): string {
+    const password = pwd.trim();
+    const length = password.length;
+    console.log(length);
+    if (length > 7) return 'success';
+    else if (length > 3) return 'warning';
+    else if (length > 0) return 'error';
+  }
+
   render() {
     return (
       <div className="email-pwd">
@@ -98,22 +133,36 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
           <Modal.Header closeButton>
             <Modal.Title>Username: {this.props.username}</Modal.Title>
           </Modal.Header>
-
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <FormGroup controlId="2">
               <Modal.Body>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <FormGroup controlId="" validationState={this.state.pwdValidationState} >
                 <FormControl
-                  type="password"
-                  placeholder="confirm password"
+                  type="text"
+                  placeholder="Enter a password"
                   value={this.state.password}
                   onChange={this.handlePasswordChange.bind(this)}
+                  id="pwd"
                 />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button bsStyle="success" type="submit">Change Password</Button>
-              </Modal.Footer>
-            </FormGroup>
+                <FormControl.Feedback />
+                </FormGroup>
+
+                <p>The password must be at least 8 characters long.</p>
+                <FormGroup controlId="" validationState={this.state.confirmationValidationState} >
+                <FormControl
+                  type="text"
+                  placeholder="Retype password"
+                  value={this.state.passwordConfirmation}
+                  onChange={this.handlePasswordChange.bind(this)}
+                  id="pwdConfirmation"
+                />
+                <FormControl.Feedback />
+                <p>{this.state.validationMessage}</p>
+                </FormGroup>
+              
+                <Button bsStyle="success" type="submit" disabled={this.state.disableSubmit}>Change Password</Button>
+            
           </form>
+          </Modal.Body>
         </Modal>
       </div>
     );

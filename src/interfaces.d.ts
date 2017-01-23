@@ -67,7 +67,12 @@ interface IEmailPwdProps {
 
 interface IEmailPwdState {
   password: string;
+  passwordConfirmation: string;
   showModal: boolean;
+  pwdValidationState: string;
+  confirmationValidationState: string;
+  validationMessage: string;
+  disableSubmit: boolean;
 }
 
 interface ISomeHash {
