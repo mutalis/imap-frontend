@@ -81,8 +81,7 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
       newState.passwordConfirmation = e.target.value.trim();
       newState.confirmationValidationState = this.checkLength(newState.passwordConfirmation, 8);
     }
-    console.log(newState.password);
-    console.log(newState.passwordConfirmation);
+    
     if (newState.password != newState.passwordConfirmation) {
       newState.pwdValidationMessage = 'Passwords must match.';
       newState.disableSubmit = true;
@@ -110,7 +109,6 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
   checkLength(entry: string, limit: number): string {
     const length: number = entry.trim().length;
 
-    console.log(length);
     if (length >= limit) return 'success';
     else if (length > (Math.round(limit/2))) return 'warning';
     else if (length > 0) return 'error';
