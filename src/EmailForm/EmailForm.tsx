@@ -81,8 +81,6 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
       newState.passwordConfirmation = e.target.value.trim();
       newState.confirmationValidationState = this.checkLength(newState.passwordConfirmation, 8);
     }
-    console.log(newState.password);
-    console.log(newState.passwordConfirmation);
     if (newState.password != newState.passwordConfirmation) {
       newState.pwdValidationMessage = 'Passwords must match.';
       newState.disableSubmit = true;
