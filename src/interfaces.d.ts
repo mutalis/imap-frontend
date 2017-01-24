@@ -39,6 +39,7 @@ interface IEmailPropsArray {
 interface IEmailBoxState {
   //emails: IEmailPropsArray;
   emails: Array<IEmailBox>;
+  alertMessage: string;
 }
 
 // Defines the interface of the properties of the EmailBox component
@@ -57,6 +58,13 @@ interface IEmailFormState {
   username: string;
   quota: string;
   password: string;
+  userValidationState: string;
+  passwordConfirmation: string;
+  pwdValidationState: string;
+  confirmationValidationState: string;
+  pwdValidationMessage: string;
+  userValidationMessage: string;
+  disableSubmit: boolean;
   showModal: boolean;
 }
 
@@ -77,4 +85,9 @@ interface IEmailPwdState {
 
 interface ISomeHash {
     [key: string]: string;
+}
+
+interface IAlertDismissableProps {
+  message: string;
+  hideAlert: () => void;
 }

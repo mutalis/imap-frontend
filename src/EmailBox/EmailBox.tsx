@@ -4,6 +4,8 @@ import Email from '../Email/Email';
 
 import EmailForm from '../EmailForm/EmailForm';
 
+import AlertDismissable from '../AlertDismissable/AlertDismissable';
+
 import { Navbar, Nav, NavItem, Table } from 'react-bootstrap';
 
 import axios, {
@@ -23,7 +25,8 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
   constructor() {
     super();
     this.state = {
-      emails: []
+      emails: [],
+      alertMessage: ''
     };
     // Defaults
     axios.defaults.baseURL = 'http://api.example.com:3000';
@@ -64,7 +67,7 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
           //emails[Number(key)] = {key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota};
           emails.push({ key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota });
         }
-        this.setState({ emails: emails });
+        this.setState({ emails: emails, alertMessage: '' });
       })
       .catch(this.handleError);
   }
@@ -102,10 +105,17 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     };
     axios.post(`/v2/domains/${this.props.domainId}/emails`, payload, config)
       .then((response: AxiosResponse) => {
-        let newEmail:IEmailBox = { key: response.data.id, username: response.data.username, quota: response.data.quota };
-        this.setState({ emails: this.state.emails.concat([newEmail]) });
+        const username: string = response.data.username;
+        let newEmail:IEmailBox = { key: response.data.id, username: username, quota: response.data.quota };
+        this.setState({ emails: this.state.emails.concat([newEmail]), alertMessage: `${username} account added successfully.` });
       })
       .catch(this.handleError);
+  }
+
+  handleAlertDismiss() {
+    let newState:IEmailBoxState = this.state;
+    newState.alertMessage = '';
+    this.setState(newState);
   }
 
   render() {
@@ -121,6 +131,7 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
           <Nav>
           </Nav>
         </Navbar>
+        <AlertDismissable message={this.state.alertMessage} hideAlert={this.handleAlertDismiss.bind(this)} />
         <EmailForm
           domainId={this.props.domainId}
           domainName={this.props.domainName}

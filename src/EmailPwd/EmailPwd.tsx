@@ -46,7 +46,7 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
 
   handleSubmit(event: any) {
     event.preventDefault();
-    const password = this.state.password;
+    const password: string = this.state.password;
 
     if (!password) {
       return;
@@ -83,14 +83,13 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
   handlePasswordChange(e: any) {
     let newState: IEmailPwdState = this.state;
     if (e.target.id == 'pwd') {
-      newState.password = e.target.value.trim();
+      newState.password = e.target.value;
       newState.pwdValidationState = this.setValidationState(newState.password);
     } else {
-      newState.passwordConfirmation = e.target.value.trim();
+      newState.passwordConfirmation = e.target.value;
       newState.confirmationValidationState = this.setValidationState(newState.passwordConfirmation);
     }
-    console.log(newState.password);
-    console.log(newState.passwordConfirmation);
+
     if (newState.password != newState.passwordConfirmation) {
       newState.validationMessage = 'Passwords must match.';
       newState.disableSubmit = true;
@@ -116,9 +115,9 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
   }
 
   setValidationState(pwd: string): string {
-    const password = pwd.trim();
-    const length = password.length;
-    console.log(length);
+    const password: string = pwd.trim();
+    const length: number = password.length;
+
     if (length > 7) return 'success';
     else if (length > 3) return 'warning';
     else if (length > 0) return 'error';
@@ -133,35 +132,35 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
           <Modal.Header closeButton>
             <Modal.Title>Username: {this.props.username}</Modal.Title>
           </Modal.Header>
-              <Modal.Body>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <FormGroup controlId="" validationState={this.state.pwdValidationState} >
+          <Modal.Body>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <FormGroup controlId="" validationState={this.state.pwdValidationState} >
                 <FormControl
-                  type="text"
-                  placeholder="Enter a password"
+                  type="password"
+                  placeholder="Enter a new password"
                   value={this.state.password}
                   onChange={this.handlePasswordChange.bind(this)}
                   id="pwd"
-                />
+                  />
                 <FormControl.Feedback />
-                </FormGroup>
+              </FormGroup>
 
-                <p>The password must be at least 8 characters long.</p>
-                <FormGroup controlId="" validationState={this.state.confirmationValidationState} >
+              <p>The password must be at least 8 characters long.</p>
+              <FormGroup controlId="" validationState={this.state.confirmationValidationState} >
                 <FormControl
-                  type="text"
+                  type="password"
                   placeholder="Retype password"
                   value={this.state.passwordConfirmation}
                   onChange={this.handlePasswordChange.bind(this)}
                   id="pwdConfirmation"
-                />
+                  />
                 <FormControl.Feedback />
                 <p>{this.state.validationMessage}</p>
-                </FormGroup>
-              
-                <Button bsStyle="success" type="submit" disabled={this.state.disableSubmit}>Change Password</Button>
-            
-          </form>
+              </FormGroup>
+
+              <Button bsStyle="success" type="submit" disabled={this.state.disableSubmit}>Change Password</Button>
+
+            </form>
           </Modal.Body>
         </Modal>
       </div>
