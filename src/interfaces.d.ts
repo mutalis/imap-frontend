@@ -14,7 +14,7 @@ interface IEmail {
   username: string;
   quota: string;
   password: string;
-  domain_id: string;
+ // domain_id: string;
 }
 
 // Defines the interface of the properties of the Email component

@@ -30,7 +30,7 @@ export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdS
     };
     // Defaults
     axios.defaults.baseURL = 'http://api.example.com:3000';
-    axios.defaults.headers.common['Authorization'] = 'Token token=e8a947943367d7f358794f6141ece2ca';
+    axios.defaults.headers.common['Authorization'] = 'Token token=68df92d83bac0c0745c03f93884ca229';
   }
 
   handleError(error: AxiosError) {

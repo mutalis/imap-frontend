@@ -33,7 +33,7 @@ export default class EmailForm extends React.Component<IEmailFormProps, IEmailFo
       return;
     }
 
-    this.props.addEmail({ username: username, quota: quota, password: password, domain_id: this.props.domainId });
+    this.props.addEmail({ username: username, quota: quota, password: password });
 
     this.setState({
       username: '',
