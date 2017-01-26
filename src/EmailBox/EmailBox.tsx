@@ -65,7 +65,8 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
         for (let emailEntry of emailsResponse) {
           //const emailEntry = emailsHash[key];
           //emails[Number(key)] = {key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota};
-          emails.push({ key: emailEntry.id, username: emailEntry.username, quota: emailEntry.quota });
+          const username: string = emailEntry.username.split('@')[0];
+          emails.push({ key: emailEntry.id, username: username, quota: emailEntry.quota });
         }
         this.setState({ emails: emails, alertMessage: '' });
       })
@@ -107,9 +108,9 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     };
     axios.post(`/v2/domains/${this.props.domainId}/emails`, payload, config)
       .then((response: AxiosResponse) => {
-        const username: string = response.data.username;
+        const username: string = response.data.username.split('@')[0];
         let newEmail:IEmailBox = { key: response.data.id, username: username, quota: response.data.quota };
-        this.setState({ emails: this.state.emails.concat([newEmail]), alertMessage: `${username} account added successfully.` });
+        this.setState({ emails: this.state.emails.concat([newEmail]), alertMessage: `${response.data.username} account added successfully.` });
       })
       .catch(this.handleError);
   }
