@@ -30,7 +30,7 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
     };
     // Defaults
     axios.defaults.baseURL = 'http://api.example.com:3000';
-    axios.defaults.headers.common['Authorization'] = 'Token token=68df92d83bac0c0745c03f93884ca229';
+    axios.defaults.headers.common['Authorization'] = 'Token token=1c3befd671a274b0e0fd6b589edfeeb6';
   }
 
   componentWillMount() {
@@ -94,6 +94,8 @@ export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
 */
 
   addEmail(email: IEmail) {
+    email.username = email.username + `@${this.props.domainName}`;
+
     let payload = JSON.stringify(email);
 
     const config: AxiosRequestConfig = {
