@@ -22,8 +22,8 @@ import axios, {
 
 export class EmailBox extends React.Component<IEmailBoxProps, IEmailBoxState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
     this.state = {
       emails: [],
       alertMessage: ''

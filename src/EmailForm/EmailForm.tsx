@@ -4,8 +4,8 @@ import { Modal, FormGroup, FormControl, Button, InputGroup } from 'react-bootstr
 
 export default class EmailForm extends React.Component<IEmailFormProps, IEmailFormState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       username: '',

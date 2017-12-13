@@ -5,8 +5,8 @@ import EmailPwd from '../EmailPwd/EmailPwd';
 
 export default class Email extends React.Component<IEmailProps, undefined> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
   }
 
   render() {

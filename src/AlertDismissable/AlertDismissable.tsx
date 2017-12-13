@@ -4,8 +4,8 @@ import { Alert } from 'react-bootstrap';
 
 export default class AlertDismissable extends React.Component<IAlertDismissableProps, undefined> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
   }
 
   render() {

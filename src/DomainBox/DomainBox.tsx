@@ -4,8 +4,8 @@ import Domain from '../Domain/Domain';
 
 export class DomainBox extends React.Component<undefined, IDomainBoxState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       domains: [{name: 'aa', quota: '11'}, {name: 'bb', quota: '22'}]

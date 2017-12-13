@@ -2,8 +2,8 @@ import * as React from 'react';
 
 export default class Domain extends React.Component<IDomainProps, undefined> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
     this._handleDelete = this._handleDelete.bind(this);
   }
 

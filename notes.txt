@@ -1,5 +1,16 @@
 npm list -g --depth=0
 
+npm install typescript react react-dom webpack webpack-dev-server ts-loader axios react-bootstrap @types/react @types/react-dom @types/react-bootstrap -D
+
+npm start
+
+npm run build
+
+To compile all the files:
+> tsc -p .
+
+
+
 https://github.com/typings/typings
 
 npm install typings -g

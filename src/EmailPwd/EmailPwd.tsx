@@ -16,8 +16,8 @@ import axios, {
 
 export default class EmailPwd extends React.Component<IEmailPwdProps, IEmailPwdState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       password: '',
