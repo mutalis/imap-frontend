@@ -1,6 +1,6 @@
-import React from 'react';
-import { render } from 'react-testing-library';
-import App from './app';
+import React from 'react'
+import { render } from 'react-testing-library'
+import App from './app'
 
 it('renders Learn React message', () => {
   const { getByText } = render(<App />)

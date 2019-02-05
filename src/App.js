@@ -20,8 +20,7 @@ const app = () => {
         >
           Learn React v{React.version}
         </a>
-        <Email username="rasg" quota="9"/>
-        <Email/>
+        
       </header>
     </div>
   );
