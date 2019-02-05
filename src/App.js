@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
+import Email from './email';
+
 import './app.css';
 
 const app = () => { 
@@ -16,8 +18,10 @@ const app = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React v{React.version} 
+          Learn React v{React.version}
         </a>
+        <Email username="rasg" quota="9"/>
+        <Email/>
       </header>
     </div>
   );
