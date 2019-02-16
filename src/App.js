@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import Email from './email';
+import EmailBox from './emailBox';
 
 import './app.css';
 
@@ -20,7 +20,7 @@ const app = () => {
         >
           Learn React v{React.version}
         </a>
-        
+        <EmailBox domainName="test.com" />
       </header>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default({children: emails}) => {
   if (emails === undefined) emails = <tr><td>No emails</td></tr>
