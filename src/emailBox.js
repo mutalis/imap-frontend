@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import EmailList from './emailList'
-import Email from './email'
+import { EmailList } from './emailList'
+import { Email } from './email'
 
-export default ({domainName}) => {
+export const EmailBox = ({domainName}) => {
   const [emails, setEmails] = useState([])
 
   useEffect(() => {

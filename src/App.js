@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import EmailBox from './emailBox';
+import { EmailBox } from './emailBox'
 
 import './app.css';
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { render } from "react-testing-library"
-import EmailBox from "./emailBox"
+import { EmailBox } from "./emailBox"
 
 test("renders emails with the right username for a given Domain Name", () => {
   const { getAllByTestId } = render(

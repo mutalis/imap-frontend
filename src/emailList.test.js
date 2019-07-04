@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "react-testing-library"
-import EmailList from "./emailList"
-import Email from "./email"
+import { EmailList } from "./emailList"
+import { Email } from "./email"
 
 test('renders "no emails" when there are no emails', () => {
   const { getByText } = render(<EmailList ></EmailList>)

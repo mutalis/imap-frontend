@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default({children: emails}) => {
+export const EmailList = ({children: emails}) => {
   if (emails === undefined) emails = <tr><td>No emails</td></tr>
   return (
     <table>
