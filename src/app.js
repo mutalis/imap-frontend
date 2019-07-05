@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import { EmailBox } from './emailBox'
 
-import './app.css';
+import './app.css'
 
 const app = () => { 
   return (
@@ -20,10 +20,10 @@ const app = () => {
         >
           Learn React v{React.version}
         </a>
-        <EmailBox domainName="test.com" />
+        <EmailBox domainName='test.net' />
       </header>
     </div>
   );
 }
 
-export default app;
+export default app
