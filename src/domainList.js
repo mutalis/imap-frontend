@@ -1,18 +1,18 @@
 import React from 'react'
 
-export const EmailList = ({children: emails}) => {
-  if (emails === undefined) emails = <tr><td>No emails</td></tr>
+export const DomainList = ({children: domains}) => {
+  if (domains === undefined) domains = <tr><td>No domains</td></tr>
   return (
     <table>
     <thead>
       <tr>
-        <th>Username</th>
+        <th>Domain Name</th>
         <th>Quota used</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      {emails}
+      {domains}
     </tbody>
     </table>
   )

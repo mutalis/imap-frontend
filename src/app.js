@@ -1,9 +1,13 @@
 import React from 'react'
 import { EmailBox } from './emailBox'
+import { DomainBox } from './domainBox'
 
 const app = () => { 
   return (
-    <EmailBox domainName='test.net' />
+    <>
+      <DomainBox userId={77} />
+      <EmailBox domainName='test.net' />
+    </>
   )
 }
 
