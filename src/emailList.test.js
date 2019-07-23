@@ -9,13 +9,13 @@ test('renders "no emails" when there are no emails', () => {
 })
 
 test('renders "the default email" when the email component dont have props', () => {
-  const { getByText } = render(
+  const { getByTestId } = render(
     <EmailList>
       <Email />
     </EmailList>
   )
-  expect(getByText(/user name/i)).toBeInTheDocument()
-  expect(getByText(/0/i)).toBeInTheDocument()
+  expect(getByTestId('username')).toHaveTextContent('username undefined')
+  expect(getByTestId('quota')).toHaveValue(0)
 })
 
 test('renders emails with the right username', () => {
