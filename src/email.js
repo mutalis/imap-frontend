@@ -1,8 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 export const Email = ({username='username undefined', quota=0} = {}) => {
   const [error, setError] = useState('')
   const [quotaUsed, setQuota] = useState(quota)
+
+  useEffect(() => {
+      // if (error === '') formCallback()
+  }, [error])
 
   const validate = value => {
     const maxUserQuota = 50
@@ -32,12 +36,15 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
   const handleBlur = () => setError(validate(quotaUsed))
 
   return (
+    <>
     <tr>
       <td data-testid='username'>{username}</td>
       <td>
         <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} onBlur={handleBlur} />
       </td>
-      <td className='error-text'>{error && error}</td>
+      {!error && <td><button onClick={()=>console.log('OOZ')}>Save</button></td>}
     </tr>
+    <tr><td className='error-text'>{error && error}</td></tr>
+    </>
   )
 }
