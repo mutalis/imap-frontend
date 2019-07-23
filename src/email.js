@@ -29,20 +29,27 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
   const handleChange = event => {
     if (event) {
       setQuota(event.target.value.trim())
-      setError(validate(quotaUsed))
     }
   }
 
   const handleBlur = () => setError(validate(quotaUsed))
 
+  const handleSubmit = event => {
+    event.preventDefault()
+    setError(validate(quotaUsed))
+    const {quota} = event.target.elements
+  }
+
   return (
     <>
     <tr>
       <td data-testid='username'>{username}</td>
-      <td>
-        <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} onBlur={handleBlur} />
-      </td>
-      {!error && <td><button onClick={()=>console.log('OOZ')}>Save</button></td>}
+        <td>
+          <form onSubmit={handleSubmit}>
+            <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} onBlur={handleBlur} />
+            <button type='submit' disabled={error}>Save</button>
+          </form>
+        </td>
     </tr>
     <tr><td className='error-text'>{error && error}</td></tr>
     </>
