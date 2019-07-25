@@ -37,8 +37,6 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
     }
   }
 
-  // const handleBlur = () => setError(validate(quotaUsed))
-
   const handleSubmit = event => {
     event.preventDefault()
     console.log(event.target.elements.quota.value)
