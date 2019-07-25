@@ -5,7 +5,7 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
   const [quotaUsed, setQuota] = useState(quota)
 
   useEffect(() => {
-      // if (error === '') formCallback()
+      // if (error === '') formCallback(quotaUsed)
   }, [error])
 
   const validate = value => {
@@ -36,8 +36,9 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    console.log(event.target.elements.quota.value)
+    setQuota(event.target.elements.quota.value)
     setError(validate(quotaUsed))
-    const {quota} = event.target.elements
   }
 
   return (
@@ -47,7 +48,7 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
         <td>
           <form onSubmit={handleSubmit}>
             <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} onBlur={handleBlur} />
-            <button type='submit' disabled={error}>Save</button>
+            <button type='submit'>Save</button>
           </form>
         </td>
     </tr>
