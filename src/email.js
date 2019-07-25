@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react'
 
 export const Email = ({username='username undefined', quota=0} = {}) => {
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
   useEffect(() => {
-      // if (error === '') formCallback(quotaUsed)
-  }, [error])
+      if (error === '') {console.log('CALL:', error)
+      setError(null)
+    } //formCallback(quotaUsed)
+      else console.log('Erro:', error)
+      console.log('Q:', quotaUsed)
+  }, [error, quotaUsed])
 
   const validate = value => {
     const maxUserQuota = 50
@@ -23,7 +27,8 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
     else if (number > maxDomainQuota) return `It must be at most ${maxDomainQuota}`
     // check maximum quota allowed per user
     else if (number > maxUserQuota) return `It must be at most ${maxUserQuota}`
-   
+    // no error
+    else return ''
   }
 
   const handleChange = event => {
@@ -32,7 +37,7 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
     }
   }
 
-  const handleBlur = () => setError(validate(quotaUsed))
+  // const handleBlur = () => setError(validate(quotaUsed))
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -47,7 +52,7 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
       <td data-testid='username'>{username}</td>
         <td>
           <form onSubmit={handleSubmit}>
-            <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} onBlur={handleBlur} />
+            <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} />
             <button type='submit'>Save</button>
           </form>
         </td>
