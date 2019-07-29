@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react'
 
-export const Email = ({username='username undefined', quota=0} = {}) => {
+export const Email = ({username='username undefined', quota=0, formCallback} = {}) => {
   const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
   useEffect(() => {
-      if (error === '') {console.log('CALL:', error)
-      setError(null)
-    } //formCallback(quotaUsed)
-      else console.log('Erro:', error)
-      console.log('Q:', quotaUsed)
-  }, [error, quotaUsed])
+    setError(validate(quota))
+  }, [quota])
 
   const validate = value => {
     const maxUserQuota = 50
@@ -39,9 +35,11 @@ export const Email = ({username='username undefined', quota=0} = {}) => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log(event.target.elements.quota.value)
-    setQuota(event.target.elements.quota.value)
-    setError(validate(quotaUsed))
+    const newQuota = event.target.elements.quota.value
+    setError(validate(newQuota))
+    if (error === '') {
+      formCallback(newQuota)
+    }
   }
 
   return (
