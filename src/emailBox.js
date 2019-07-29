@@ -7,7 +7,7 @@ export const EmailBox = ({domainName='test.com'}) => {
 
   useEffect(() => {
     getEmails(domainName)
-  }, [domainName, emails] )
+  }, [domainName] )
 
   const getEmails = domainName => {
     const emails = [{id: 1, username: 'user 1', quota: 10}, {id: 2, username: 'user 2', quota: 20}]

@@ -7,7 +7,6 @@ const app = () => {
     <>
       <DomainBox userId={77} />
       <EmailBox domainName='test.net' />
-      <table><tbody><Email /></tbody></table>
     </>
   )
 }

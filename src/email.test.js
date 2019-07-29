@@ -16,7 +16,7 @@ test('calls onSubmit with quota', () => {
   )
   getByTestId('quota').value = 30
   expect(getByTestId('quota')).toHaveValue(30)
-  getByText(/save/i).click()
+  getByText(/update/i).click()
   expect(formCallback).toHaveBeenCalledTimes(1)
   expect(formCallback).toHaveBeenCalledWith('30')
 })

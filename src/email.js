@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 
-export const Email = ({username='username undefined', quota=0, formCallback} = {}) => {
+const identity = v => v
+
+export const Email = ({username='username undefined', quota=0, formCallback=identity} = {}) => {
   const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
@@ -10,7 +12,7 @@ export const Email = ({username='username undefined', quota=0, formCallback} = {
 
   const validate = value => {
     const maxUserQuota = 50
-    const maxDomainQuota = 7
+    const availableDomainQuota = 7
     const number = Number(value)
 
     // not empty value
@@ -19,8 +21,8 @@ export const Email = ({username='username undefined', quota=0, formCallback} = {
     else if (isNaN(number)) return 'It must be a number'
     // is a positive number
     else if (number < 0) return 'It must be a positive number'
-    // check maximum quota allowed per domain
-    else if (number > maxDomainQuota) return `It must be at most ${maxDomainQuota}`
+    // check available quota per domain
+    else if (number > availableDomainQuota) return `It must be at most ${availableDomainQuota}`
     // check maximum quota allowed per user
     else if (number > maxUserQuota) return `It must be at most ${maxUserQuota}`
     // no error
@@ -49,7 +51,7 @@ export const Email = ({username='username undefined', quota=0, formCallback} = {
         <td>
           <form onSubmit={handleSubmit}>
             <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} />
-            <button type='submit'>Save</button>
+            <button type='submit'>Update</button>
           </form>
         </td>
     </tr>
