@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import * as R from 'ramda'
 
-const identity = v => v
-
-export const Email = ({username='username undefined', quota=0, formCallback=identity} = {}) => {
+export const Email = ({username='username undefined', quota=0, updateEmail=R.identity} = {}) => {
   const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
@@ -40,8 +39,12 @@ export const Email = ({username='username undefined', quota=0, formCallback=iden
     const newQuota = event.target.elements.quota.value
     setError(validate(newQuota))
     if (error === '') {
-      formCallback(newQuota)
+      updateEmail(newQuota)
     }
+  }
+
+  const deleteEmail = () => {
+    updateEmail()
   }
 
   return (
@@ -54,6 +57,7 @@ export const Email = ({username='username undefined', quota=0, formCallback=iden
             <button type='submit'>Update</button>
           </form>
         </td>
+        <td><button onClick={deleteEmail}>Delete</button></td>
     </tr>
     <tr><td className='error-text'>{error && error}</td></tr>
     </>

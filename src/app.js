@@ -1,7 +1,7 @@
 import React from 'react'
 import { EmailBox } from './emailBox'
 import { DomainBox } from './domainBox'
-import { Email } from './email'
+
 const app = () => { 
   return (
     <>

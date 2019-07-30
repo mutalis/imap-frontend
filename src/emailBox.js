@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { EmailList } from './emailList'
 import { Email } from './email'
+import * as R from 'ramda'
 
 export const EmailBox = ({domainName='test.com'}) => {
   const [emails, setEmails] = useState([])
@@ -14,8 +15,9 @@ export const EmailBox = ({domainName='test.com'}) => {
     setEmails(emails)
     return emails
   }
-
-  const emailComponents = () => emails.map(email => <Email key={email.id} username={email.username} quota={email.quota} />)
+  // http://api.example.com:3000/v2/emails/
+  const updateEmail = (emailId) => {}
+  const emailComponents = () => emails.map(email => <Email key={email.id} username={email.username} quota={email.quota} updateEmail={updateEmail(email.id)}/>)
   return (
     <EmailList>
       {emailComponents()}

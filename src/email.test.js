@@ -10,13 +10,23 @@ test('renders "the default email" when the email component dont have props', () 
 })
 
 test('calls onSubmit with quota', () => {
-  const formCallback = jest.fn()
+  const updateEmail = jest.fn()
   const {getByTestId, getByText} = render(
-    <table><tbody><Email formCallback={formCallback} quota={2} /></tbody></table>
+    <table><tbody><Email updateEmail={updateEmail} quota={2} /></tbody></table>
   )
   getByTestId('quota').value = 30
   expect(getByTestId('quota')).toHaveValue(30)
   getByText(/update/i).click()
-  expect(formCallback).toHaveBeenCalledTimes(1)
-  expect(formCallback).toHaveBeenCalledWith('30')
+  expect(updateEmail).toHaveBeenCalledTimes(1)
+  expect(updateEmail).toHaveBeenCalledWith('30')
+})
+
+test('calls delete email', () => {
+  const updateEmail = jest.fn()
+  const {getByText} = render(
+    <table><tbody><Email updateEmail={updateEmail} quota={2} /></tbody></table>
+  )
+  getByText(/delete/i).click()
+  expect(updateEmail).toHaveBeenCalledTimes(1)
+  // expect(updateEmail).toHaveBeenCalledWith(90)
 })
