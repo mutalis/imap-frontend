@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import * as R from 'ramda'
 
-export const Email = ({username='username undefined', quota=0, updateEmail=R.identity} = {}) => {
+export const Email = ({emailId=null, username='username undefined', quota=0, updateEmail=R.identity} = {}) => {
   const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
@@ -11,7 +11,7 @@ export const Email = ({username='username undefined', quota=0, updateEmail=R.ide
 
   const validate = value => {
     const maxUserQuota = 50
-    const availableDomainQuota = 7
+    const availableDomainQuota = 70
     const number = Number(value)
 
     // not empty value
@@ -30,21 +30,46 @@ export const Email = ({username='username undefined', quota=0, updateEmail=R.ide
 
   const handleChange = event => {
     if (event) {
+      // console.log(event.target.value.trim())
+      event.persist()
       setQuota(event.target.value.trim())
+      console.log(event.target.value.trim())
     }
   }
 
-  const handleSubmit = event => {
+  const updateQuota = event => {
     event.preventDefault()
-    const newQuota = event.target.elements.quota.value
-    setError(validate(newQuota))
-    if (error === '') {
-      updateEmail(newQuota)
+    const newQuota = event.target.elements.quota.value.trim()
+    const quotaError = validate(newQuota)
+    
+    if (quotaError) setError(quotaError)
+    else {
+      console.log('Sub:',newQuota)
+      const config = {
+        method: 'PATCH',
+        headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify({
+          quota: newQuota
+        }),
+        // mode: 'no-cors',
+      }
+      updateEmail(config)
+      .then(response => response.json())
+      .then(jsonEmail => {
+        setQuota(jsonEmail.quota)
+        setError(quotaError)
+      })
+      .catch(error => console.log('UpdateQuota error:',error))
     }
+
   }
 
-  const deleteEmail = () => {
-    updateEmail()
+  const deleteEmail = (event, id) => {
+    event.preventDefault()
+    // updateEmail(id)
   }
 
   return (
@@ -52,12 +77,13 @@ export const Email = ({username='username undefined', quota=0, updateEmail=R.ide
     <tr>
       <td data-testid='username'>{username}</td>
         <td>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={updateQuota}>
             <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} />
             <button type='submit'>Update</button>
           </form>
         </td>
-        <td><button onClick={deleteEmail}>Delete</button></td>
+        <td><button onClick={event => deleteEmail(event,emailId)}>Delete</button></td>
+        <td><button>Change Password</button></td>
     </tr>
     <tr><td className='error-text'>{error && error}</td></tr>
     </>

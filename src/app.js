@@ -6,7 +6,7 @@ const app = () => {
   return (
     <>
       <DomainBox userId={77} />
-      <EmailBox domainName='test.net' />
+      <EmailBox domainName='1' />
     </>
   )
 }
