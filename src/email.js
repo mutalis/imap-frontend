@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import * as R from 'ramda'
 
-export const Email = ({emailId=null, username='username undefined', quota=0, updateEmail=R.identity} = {}) => {
+export const Email = ({emailId=null, username='username undefined', quota=0, modifyEmail=R.identity, deleteEmail=R.identity} = {}) => {
   const [error, setError] = useState(null)
   const [quotaUsed, setQuota] = useState(quota)
 
@@ -56,7 +56,7 @@ export const Email = ({emailId=null, username='username undefined', quota=0, upd
         }),
         // mode: 'no-cors',
       }
-      updateEmail(config)
+      modifyEmail(config)
       .then(response => response.json())
       .then(jsonEmail => {
         setQuota(jsonEmail.quota)
@@ -65,11 +65,6 @@ export const Email = ({emailId=null, username='username undefined', quota=0, upd
       .catch(error => console.log('UpdateQuota error:',error))
     }
 
-  }
-
-  const deleteEmail = (event, id) => {
-    event.preventDefault()
-    // updateEmail(id)
   }
 
   return (

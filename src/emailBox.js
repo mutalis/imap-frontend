@@ -24,12 +24,27 @@ export const EmailBox = ({domainName='test.com'}) => {
     // setEmails(emails)
   }
 
-  const updateEmail = emailId => {
+  const modifyEmail = emailId => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/${emailId}`
     return R.partial(fetch, [url])
   }
 
-  const emailComponents = () => emails.map(email => <Email key={email.id} emailId={email.id} username={email.username} quota={email.quota} updateEmail={updateEmail(email.id)}/>)
+  const deleteEmail = (event, emailId) => {
+    event.preventDefault()
+    const config = {
+      method: 'DELETE',
+    }
+    modifyEmail(emailId)(config)
+    .then(response => {
+      console.log(response)
+      if (response.status === 200) setEmails(emails.filter(email => email.id !== emailId))
+    })
+    .catch(error => console.log('Delete Email error:',error))
+  }
+
+  const emailComponents = () => emails.map(({id, username, quota}) =>
+    <Email key={id} emailId={id} username={username} quota={quota} modifyEmail={modifyEmail(id)} deleteEmail={deleteEmail}/>)
+
   return (
     <EmailList>
       {emailComponents()}
