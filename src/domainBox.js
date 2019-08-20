@@ -7,12 +7,11 @@ export const DomainBox = ({userId=99}) => {
 
   useEffect(() => {
     getDomains(userId)
-  }, [userId, domains] )
+  }, [userId] )
 
   const getDomains = userId => {
     const domains = [{id: 1, domainname: 'domain name 1', quota: 10}, {id: 2, domainname: 'domain name 2', quota: 20}]
     setDomains(domains)
-    return domains
   }
 
   const domainComponents = () => domains.map(domain => <Domain key={domain.id} domainname={domain.domainname} quota={domain.quota} />)

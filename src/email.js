@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import * as R from 'ramda'
 
-export const Email = ({emailId=null, username='username undefined', quota=0, modifyEmail=R.identity, deleteEmail=R.identity} = {}) => {
+export const Email = ({emailId=null, username='username undefined', quota=0, modifyEmailUrl=R.identity, deleteEmail=R.identity} = {}) => {
   const [error, setError] = useState(null)
-  const [quotaUsed, setQuota] = useState(quota)
+  const [email, setEmail] = useState({quota, password: ''})
+  const [showPasswordForm, setShowPasswordForm] = useState(false)
 
   useEffect(() => {
-    setError(validate(quota))
-  }, [quota])
+    // setError(validate(quota))
+  }, [])
 
   const validate = value => {
     const maxUserQuota = 50
@@ -30,21 +31,22 @@ export const Email = ({emailId=null, username='username undefined', quota=0, mod
 
   const handleChange = event => {
     if (event) {
-      // console.log(event.target.value.trim())
       event.persist()
-      setQuota(event.target.value.trim())
-      console.log(event.target.value.trim())
+      setEmail(prevEmail => ({
+        ...prevEmail,
+        [event.target.name]: event.target.value.trim(),
+      }))
     }
   }
 
-  const updateQuota = event => {
+  const updateEmail = event => {
     event.preventDefault()
-    const newQuota = event.target.elements.quota.value.trim()
-    const quotaError = validate(newQuota)
-    
-    if (quotaError) setError(quotaError)
-    else {
-      console.log('Sub:',newQuota)
+    const attrName = event.target.elements[0].attributes.name.value
+    const attrError = validate(email.quota)
+    // const attrError = ''
+    setError(attrError)
+    if (!attrError) 
+    {
       const config = {
         method: 'PATCH',
         headers: { 
@@ -52,19 +54,22 @@ export const Email = ({emailId=null, username='username undefined', quota=0, mod
           'Content-Type': 'application/json; charset=utf-8',
         },
         body: JSON.stringify({
-          quota: newQuota
+          [attrName]: email[attrName]
         }),
-        // mode: 'no-cors',
       }
-      modifyEmail(config)
+      console.log('Body payload:',config.body)
+      modifyEmailUrl(config)
       .then(response => response.json())
       .then(jsonEmail => {
-        setQuota(jsonEmail.quota)
-        setError(quotaError)
+        setEmail(prevEmail => ({
+          ...prevEmail,
+          [attrName]: email[attrName],
+        }))
+        // setError(attrError) // removes error message
+        console.log(email)
       })
       .catch(error => console.log('UpdateQuota error:',error))
     }
-
   }
 
   return (
@@ -72,13 +77,23 @@ export const Email = ({emailId=null, username='username undefined', quota=0, mod
     <tr>
       <td data-testid='username'>{username}</td>
         <td>
-          <form onSubmit={updateQuota}>
-            <input type='number' name='quota' value={quotaUsed} data-testid='quota' required onChange={handleChange} />
+          <form onSubmit={updateEmail}>
+            <input type='number' name='quota' value={email.quota} data-testid='quota' required onChange={handleChange} style={{width: 40}} />
             <button type='submit'>Update</button>
           </form>
         </td>
-        <td><button onClick={event => deleteEmail(event,emailId)}>Delete</button></td>
-        <td><button>Change Password</button></td>
+        <td><button onClick={() => deleteEmail(emailId)}>Delete</button></td>
+        <td>
+         {showPasswordForm ? (
+          <form onSubmit={updateEmail}>
+            <input type='password' name='password' value={email.password} data-testid='password' required onChange={handleChange} size='10'/>
+            <button type='submit'>Change Password</button>
+            <button type='button' onClick={() => setShowPasswordForm(false)}>Cancel</button>
+          </form>
+          ) : (
+            <button type='button' onClick={() => setShowPasswordForm(true)}>Change Password</button>
+          )}
+        </td>
     </tr>
     <tr><td className='error-text'>{error && error}</td></tr>
     </>
