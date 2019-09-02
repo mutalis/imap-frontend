@@ -25,11 +25,6 @@ export const EmailList = ({domainName='1'}={}) => {
 
     getEmails(R.partial(fetch, [url]), ignore)
 
-    // async function fetchData() {
-    //   const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query)
-    //   if (!ignore) setEmails(result.data)
-    // }
-    // fetchData()
     return () => { ignore = true }
   }, [domainName, query] )
 
