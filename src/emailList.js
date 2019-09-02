@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Email } from './email'
-import { validateEmail } from './EmailValidationRules'
+import { validate } from './validationRules'
 import * as R from 'ramda'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -9,24 +9,36 @@ import Button from '@material-ui/core/Button'
 
 const fetch = require('node-fetch')
 
-export const EmailList = ({domainName='test.com'}={}) => {
+export const EmailList = ({domainName='1'}={}) => {
   const [emails, setEmails] = useState([])
   const [errors, setErrors] = useState({})
   const [email, setEmail] = useState({id: null, username: '', quota: 0, password: '', passwordConfirmation: ''})
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [createEmail, setCreateEmail] = useState(true)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
-    getEmails(domainName)
-  }, [domainName] )
+    let ignore = false
+    let url = ''
+    query==='' ? url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails`
+    : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails?username=${query}`
 
-  const getEmails = domainName => {
-    const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/1/emails`
-    fetch(url)
+    getEmails(R.partial(fetch, [url]), ignore)
+
+    // async function fetchData() {
+    //   const result = await axios('https://hn.algolia.com/api/v1/search?query=' + query)
+    //   if (!ignore) setEmails(result.data)
+    // }
+    // fetchData()
+    return () => { ignore = true }
+  }, [domainName, query] )
+
+  const getEmails = (listEmailsUrl, ignore) => {
+    listEmailsUrl()
     .then(response => response.json())
     .then(jsonEmails => {
-      console.log(jsonEmails)
-      setEmails(jsonEmails)
+      console.log('Email lists:',jsonEmails)
+      if (!ignore) setEmails(jsonEmails)
     })
     .catch(error => console.log('GetEmails error:',error))
     // const emails = [{id: 1, username: 'user 1', quota: 10}, {id: 2, username: 'user 2', quota: 20}]
@@ -48,7 +60,7 @@ export const EmailList = ({domainName='test.com'}={}) => {
       event.persist()
       setEmail(prevEmail => ({
         ...prevEmail,
-        [event.target.name]: event.target.value.trim(),
+        [event.target.name]: event.target.value,
       }))
     }
   }
@@ -59,11 +71,11 @@ export const EmailList = ({domainName='test.com'}={}) => {
     if (createEmail) {
       const emailId = emails.findIndex(e => e.username === email.username)
       const emailExists = emailId > -1
-      emailExists ? attrError.username = `${email.username} already exists` : attrError = validateEmail(email) // validate all the attributes
+      emailExists ? attrError.username = `${email.username} already exists` : attrError = validate(email) // validate all the attributes
     } else {
       attrError = {
-        ...validateEmail(email, 'quota'),
-        ...(email.password || email.passwordConfirmation) && validateEmail(email, 'password'),
+        ...validate(email, 'quota'),
+        ...(email.password || email.passwordConfirmation) && validate(email, 'password'),
       }
     } console.log('EEE:',attrError)
     setErrors(attrError)
@@ -152,6 +164,16 @@ export const EmailList = ({domainName='test.com'}={}) => {
 
   return (
     <div className="container">
+      <TextField
+        type="text" 
+        autoComplete="off"
+        name="query"
+        onChange={e => {setQuery(e.target.value); setErrors(validate({username: query}, 'usernamesearch'))} }
+        label={errors.search ? errors.search : 'Search by username'}
+        fullWidth
+        value={query}
+        error={Boolean(errors.search)}
+      />
       <Typography align="center" variant="h5">
         Email List
       {/* New email Update email, change the quota or the password */}

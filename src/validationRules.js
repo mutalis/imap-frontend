@@ -1,23 +1,27 @@
-export const validateEmail = (email, attrName=null) => {
+export const validate = (values, attrName=null) => {
   
-  let errors = {} // Email Errors
+  let errors = {} // values Errors
   const validateUsername = () => {
-    if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(email.username))) errors.username = 'Invalid username'
+    if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.username))) errors.username = 'Invalid username'
+  }
+
+  const validateUsernameSearch = () => {
+    if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.username))) errors.search = 'Invalid username'
   }
 
   const validatePassword = () => {
-    if (!email.password) errors.password = 'Password is required'
-    else if (email.password.length < 8) errors.password = 'Password must be at least 8 characters'
-    else if (email.password !== email.passwordConfirmation) errors.passwordConfirmation = 'Passwords must match'
+    if (!values.password) errors.password = 'Password is required'
+    else if (values.password.length < 8) errors.password = 'Password must be at least 8 characters'
+    else if (values.password !== values.passwordConfirmation) errors.passwordConfirmation = 'Passwords must match'
   }
 
   const validateQuota = () => {
     const maxUserQuota = 50
     const availableDomainQuota = 70
-    const quota = Number(email.quota)
+    const quota = Number(values.quota)
 
     // not empty value
-    if (email.quota === '') errors.quota = 'Enter a number'
+    if (values.quota === '') errors.quota = 'Enter a number'
     // is a number
     else if (isNaN(quota)) errors.quota = 'It must be a number'
     // is an integer
@@ -30,7 +34,7 @@ export const validateEmail = (email, attrName=null) => {
     else if (quota > maxUserQuota) errors.quota = `It must be at most ${maxUserQuota}`
   }
 
-  if (!attrName) { // check all email attributes
+  if (!attrName) { // check all values attributes
     validateUsername()
     validatePassword()
     validateQuota()
@@ -44,6 +48,9 @@ export const validateEmail = (email, attrName=null) => {
         break
       case 'quota':
         validateQuota()
+        break
+      case 'usernamesearch':
+        validateUsernameSearch()
         break
       default:
         return errors
