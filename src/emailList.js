@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Button from '@material-ui/core/Button'
+import { useFetch } from './useFetch'
 
 const fetch = require('node-fetch')
 
@@ -16,30 +17,20 @@ export const EmailList = ({domainName='1'}={}) => {
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [createEmail, setCreateEmail] = useState(true)
   const [query, setQuery] = useState('')
+  const [{data: fetchData, error: fetchError}, doFetch] = useFetch()
 
   useEffect(() => {
-    let ignore = false
     let url = ''
     query==='' ? url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails`
     : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails?username=${query}`
 
-    getEmails(R.partial(fetch, [url]), ignore)
+    doFetch({url, resource: {}})
+  }, [domainName, doFetch, query] )
 
-    return () => { ignore = true }
-  }, [domainName, query] )
-
-  const getEmails = (listEmailsUrl, ignore) => {
-    listEmailsUrl()
-    .then(response => response.json())
-    .then(jsonEmails => {
-      console.log('Email lists:',jsonEmails)
-      if (!ignore) setEmails(jsonEmails)
-    })
-    .catch(error => console.log('GetEmails error:',error))
-    // const emails = [{id: 1, username: 'user 1', quota: 10}, {id: 2, username: 'user 2', quota: 20}]
-    // setEmails(emails)
-  }
-
+  useEffect(() => {
+    setEmails(fetchData)
+  }, [fetchData] )
+  
   const modifyEmailUrl = emailId => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/${emailId}`
     return R.partial(fetch, [url])
@@ -48,6 +39,11 @@ export const EmailList = ({domainName='1'}={}) => {
   const createEmailUrl = () => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/`
     return R.partial(fetch, [url])
+  }
+
+  const checkStatus = response => {
+    if (response.status === 200) return Promise.resolve(response)
+    else return Promise.reject(new Error(response.statusText))
   }
 
   const handleChange = event => {
@@ -75,6 +71,7 @@ export const EmailList = ({domainName='1'}={}) => {
     } console.log('EEE:',attrError)
     setErrors(attrError)
 
+    // const noErrors = Object.keys(errors).length === 0
     if (R.isEmpty(attrError)) { // if not email errors
       if (createEmail) { // if user doesn't exist, create it
         const config = {
@@ -87,6 +84,7 @@ export const EmailList = ({domainName='1'}={}) => {
         }
         console.log('Body payload:',config.body)
         createEmailUrl()(config)
+        // .then(checkStatus)
         .then(response => response.json())
         .then(jsonEmail => {
           setEmails(prevEmails => ([...prevEmails,jsonEmail]))
@@ -106,6 +104,7 @@ export const EmailList = ({domainName='1'}={}) => {
         }
         console.log('Body payload:',config.body)
         modifyEmailUrl(email.id)(config)
+        .then(checkStatus)
         .then(response => response.json())
         .then(jsonEmail => {
           const updatedEmails = emails.map(c => c.id === jsonEmail.id ? jsonEmail : c)
@@ -124,8 +123,9 @@ export const EmailList = ({domainName='1'}={}) => {
       method: 'DELETE',
     }
     modifyEmailUrl(emailId)(config)
+    .then(checkStatus)
     .then(response => {
-      console.log(response)
+      console.log(response.text())
       if (response.status === 200) setEmails(emails.filter(email => email.id !== emailId))
     })
     .catch(error => console.log('Delete Email error:',error))
