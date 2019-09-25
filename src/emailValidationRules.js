@@ -1,21 +1,22 @@
-export const validate = (values, attrName=null) => {
-  
+export const emailValidationRules = (operation, emails) => {
+// returns a function based on the operation to perform.
+
   let errors = {} // values Errors
-  const validateUsername = () => {
+  const validateUsername = (values) => {
     if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.username))) errors.username = 'Invalid username'
   }
 
-  const validateUsernameSearch = () => {
+  const validateUsernameSearch = (values) => {
     if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.username))) errors.search = 'Invalid username'
   }
 
-  const validatePassword = () => {
+  const validatePassword = (values) => {
     if (!values.password) errors.password = 'Password is required'
     else if (values.password.length < 8) errors.password = 'Password must be at least 8 characters'
     else if (values.password !== values.passwordConfirmation) errors.passwordConfirmation = 'Passwords must match'
   }
 
-  const validateQuota = () => {
+  const validateQuota = (values) => {
     const maxUserQuota = 50
     const availableDomainQuota = 70
     const quota = Number(values.quota)
@@ -34,28 +35,34 @@ export const validate = (values, attrName=null) => {
     else if (quota > maxUserQuota) errors.quota = `It must be at most ${maxUserQuota}`
   }
 
-  if (!attrName) { // check all values attributes
-    validateUsername()
-    validatePassword()
-    validateQuota()
-  } else {
-    switch (attrName) {
-      case 'username':
-        validateUsername()
-        break
-      case 'password':
-        validatePassword()
-        break
-      case 'quota':
-        validateQuota()
-        break
-      case 'usernamesearch':
-        validateUsernameSearch()
-        break
-      default:
+  switch (operation) {
+    case 'create':
+      const validateNew = values => {
+        const emailId = emails.findIndex(e => e.username === values.username)
+        const emailExists = emailId > -1
+        if (emailExists) errors.username = `${values.username} already exists`
+        else {// validate all the attributes
+          validateUsername(values)
+          validatePassword(values)
+          validateQuota(values)
+          return errors
+        }
+      }
+      return validateNew
+    case 'update':
+      const validateUpdate = values => {
+        validateQuota(values);
+        (values.password || values.passwordConfirmation) && validatePassword(values)
         return errors
-    }
+      }
+      return validateUpdate
+    case 'usernamesearch':
+      const validateUserSearch = values => {
+        validateUsernameSearch(values)
+        return errors
+      }
+      return validateUserSearch
+    default:
+      return validateNew
   }
-
-  return errors
 }

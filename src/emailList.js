@@ -5,9 +5,8 @@ import * as R from 'ramda'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-// import Button from '@material-ui/core/Button'
 import { useFetch } from './useFetch'
-import { validate } from './emailValidationRules'
+const validate = null
 const fetch = require('node-fetch')
 
 export const EmailList = ({domainName='1'}={}) => {
@@ -36,89 +35,12 @@ export const EmailList = ({domainName='1'}={}) => {
     return R.partial(fetch, [url])
   }
 
-  // const createEmailUrl = () => {
-  //   const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/`
-  //   return R.partial(fetch, [url])
-  // }
-
   const checkStatus = response => {
     if (response.status === 200) return Promise.resolve(response)
     else return Promise.reject(new Error(response.statusText))
   }
 
-  // const handleChange = event => {
-  //   if (event) {
-  //     event.persist()
-  //     setEmail(prevEmail => ({
-  //       ...prevEmail,
-  //       [event.target.name]: event.target.value,
-  //     }))
-  //   }
-  // }
-
-  // const saveEmail = event => {
-  //   event.preventDefault()
-  //   let attrError = {}
-  //   if (createEmail) {
-  //     const emailId = emails.findIndex(e => e.username === email.username)
-  //     const emailExists = emailId > -1
-  //     emailExists ? attrError.username = `${email.username} already exists` : attrError = validate(email) // validate all the attributes
-  //   } else {
-  //     attrError = {
-  //       ...validate(email, 'quota'),
-  //       ...(email.password || email.passwordConfirmation) && validate(email, 'password'),
-  //     }
-  //   } console.log('EEE:',attrError)
-  //   setErrors(attrError)
-
-  //   // const noErrors = Object.keys(errors).length === 0
-  //   if (R.isEmpty(attrError)) { // if not email errors
-  //     if (createEmail) { // if user doesn't exist, create it
-  //       const config = {
-  //         method: 'POST',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json; charset=utf-8',
-  //         },
-  //         body: JSON.stringify(email),
-  //       }
-  //       console.log('Body payload:',config.body)
-  //       createEmailUrl()(config)
-  //       // .then(checkStatus)
-  //       .then(response => response.json())
-  //       .then(jsonEmail => {
-  //         setEmails(prevEmails => ([...prevEmails,jsonEmail]))
-  //         console.log('JsonEmail:',jsonEmail)
-  //       })
-  //       .catch(error => console.log('Create email error:',error))
-  //     } else { // if user exists, update it
-  //       const payload = {quota: email.quota, ...((email.password) && {password: email.password})}
-  //       console.log('Body:',payload)
-  //       const config = {
-  //         method: 'PATCH',
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json; charset=utf-8',
-  //         },
-  //         body: JSON.stringify(payload),
-  //       }
-  //       console.log('Body payload:',config.body)
-  //       modifyEmailUrl(email.id)(config)
-  //       .then(checkStatus)
-  //       .then(response => response.json())
-  //       .then(jsonEmail => {
-  //         const updatedEmails = emails.map(c => c.id === jsonEmail.id ? jsonEmail : c)
-  //         setEmails(updatedEmails)
-  //         console.log('JsonEmail:',jsonEmail)
-  //       })
-  //       .catch(error => console.log('Update email error:',error))
-  //     }
-  //     clearEmail()
-  //   }
-  // }
-
   const deleteEmail = emailId => {
-    // event.preventDefault()
     const config = {
       method: 'DELETE',
     }
@@ -177,17 +99,10 @@ export const EmailList = ({domainName='1'}={}) => {
         value={query}
         error={Boolean(errors.search)}
       />
-      <Typography align="center" variant="h5">
-        Email List
-      {/* New email Update email, change the quota or the password */}
-      </Typography>
-      { showEmailForm ? ( <EmailForm {...emailFormProps} />
-      ) : (
-      <AddCircleIcon
-        style={{ color: 'green', float: 'right' }}
-        onClick={() => {setShowEmailForm(true)}}
-      />
-      )}
+      <Typography align="center" variant="h5">Email List</Typography>
+      { showEmailForm ? ( <EmailForm {...emailFormProps} />) :
+        ( <AddCircleIcon style={{ color: 'green', float: 'right' }} onClick={() => {setShowEmailForm(true)}} />)
+      }
       {emailComponents()}
     </div>
   )
