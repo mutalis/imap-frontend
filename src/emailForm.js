@@ -71,9 +71,6 @@ export const EmailForm = ({initialEmail={id: null, username: '', quota: 0, passw
   const validate = emailValidationRules(createEmail? 'create': 'update', emails)
   const [email, errors, isDataSubmitting, handleChange, handleSubmit] = useFormValidation(initialEmail, validate, saveEmail)
 
-console.log('Errors', errors)
-console.log('Email', email)
-console.log('Initial Email', initialEmail)
   return (
     <form onSubmit={handleSubmit} className='form'>
       {createEmail && ( 

@@ -6,13 +6,16 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import { useFetch } from './useFetch'
-const validate = null
+import { emailValidationRules } from './emailValidationRules'
+
 const fetch = require('node-fetch')
+
+const validate = emailValidationRules('usernamesearch')
 
 export const EmailList = ({domainName='1'}={}) => {
   const [emails, setEmails] = useState([])
-  const [errors, setErrors] = useState({})
-  const [email, setEmail] = useState({id: null, username: 'caca', quota: 0, password: '', passwordConfirmation: ''})
+  const [error, setSearchError] = useState({})
+  const [email, setEmail] = useState({id: null, username: '', quota: 0, password: '', passwordConfirmation: ''})
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [createEmail, setCreateEmail] = useState(true)
   const [query, setQuery] = useState('')
@@ -55,7 +58,6 @@ export const EmailList = ({domainName='1'}={}) => {
 
   const initializeEmail = (id, username, quota) => {
     setEmail({id, quota, username, password: '', passwordConfirmation: ''})
-    console.log('MM',email)
     setShowEmailForm(true)
     setCreateEmail(false)
   }
@@ -93,11 +95,11 @@ export const EmailList = ({domainName='1'}={}) => {
         type="text" 
         autoComplete="off"
         name="query"
-        onChange={e => {setQuery(e.target.value); setErrors(validate({username: query}, 'usernamesearch'))} }
-        label={errors.search ? errors.search : 'Search by username'}
+        onChange={e => {setQuery(e.target.value); setSearchError(validate({search: query}))} }
+        label={error.search ? error.search : 'Search by username'}
         fullWidth
         value={query}
-        error={Boolean(errors.search)}
+        error={Boolean(error.search)}
       />
       <Typography align="center" variant="h5">Email List</Typography>
       { showEmailForm ? ( <EmailForm {...emailFormProps} />) :

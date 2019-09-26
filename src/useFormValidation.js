@@ -23,7 +23,6 @@ export const useFormValidation = (initialValues, validate, formCallback) => {
         ...values,
         [event.target.name]: event.target.value
       })
-      console.log('values:',values)
     }
   }
 

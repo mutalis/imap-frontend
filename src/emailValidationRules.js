@@ -7,7 +7,9 @@ export const emailValidationRules = (operation, emails) => {
   }
 
   const validateUsernameSearch = (values) => {
-    if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.username))) errors.search = 'Invalid username'
+    if (!(/^[a-z]{1,1}([a-z\d.-]){0,61}$/.test(values.search))) errors.search = 'Invalid username'
+    else errors.search = ''
+    if (values.search === '') errors.search = ''
   }
 
   const validatePassword = (values) => {
