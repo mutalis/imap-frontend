@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 const fetch = require('node-fetch')
 
 export const useFetch = (configApi={}) => {
-  const [config, setConfig] = useState(configApi)
+  // const [config, setConfig] = useState(configApi)
   const [data, setData] = useState([])
   const [error, setError] = useState(null)
   // const [isLoading, setIsLoading] = useState(false)
@@ -12,9 +12,9 @@ export const useFetch = (configApi={}) => {
     setData([])
     setError(null)
 
-    const fetchData = ({url = '', resource = {}}, ignore) => {
+    const fetchData = ({url = '', resourceConfig = {}}, ignore) => {
       console.log('Url:', url)
-      fetch(url, resource)
+      fetch(url, resourceConfig)
       .then(checkStatus)
       .then(response => response.json())
       .then(json => {
@@ -27,20 +27,20 @@ export const useFetch = (configApi={}) => {
       })
     }
 
-    if (config.url) fetchData(config, ignore)
+    if (configApi.url) fetchData(configApi, ignore)
     return () => { ignore = true }
-  }, [config] )
+  }, [configApi] )
 
   const checkStatus = response => {
     if (response.status === 200) return Promise.resolve(response)
     else return Promise.reject(new Error(response.statusText))
   }
 
-  return [{data, error}, setConfig]
+  return [data, error]
 }
 
 
-// const fetchData = async(config, ignore) => {
+// const fetchData = async(configApi, ignore) => {
 //   try {
 //     console.log('Ass0:',config.url)
 //     const response = await fetch(config.url,config.resource)

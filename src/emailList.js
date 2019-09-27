@@ -13,21 +13,22 @@ const fetch = require('node-fetch')
 const validate = emailValidationRules('usernamesearch')
 
 export const EmailList = ({domainName='1'}={}) => {
-  const [emails, setEmails] = useState([])
   const [error, setSearchError] = useState({})
   const [email, setEmail] = useState({id: null, username: '', quota: 0, password: '', passwordConfirmation: ''})
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [createEmail, setCreateEmail] = useState(true)
   const [query, setQuery] = useState('')
-  const [{data: fetchData, error: fetchError}, doFetch] = useFetch()
+  const [configApi, setConfigApi] = useState({})
+  const [fetchData, fetchError] = useFetch(configApi)
+  const [emails, setEmails] = useState([])
 
   useEffect(() => {
     let url = ''
     query==='' ? url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails`
     : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails?username=${query}`
 
-    doFetch({url, resource: {}})
-  }, [domainName, doFetch, query] )
+    setConfigApi({url, resourceConfig: {}})
+  }, [domainName, query] )
 
   useEffect(() => {
     setEmails(fetchData)
@@ -91,6 +92,7 @@ export const EmailList = ({domainName='1'}={}) => {
 
   return (
     <div className="container">
+      { fetchError && <Typography align="center" variant="h7">Network connection failure</Typography>}
       <TextField
         type="text" 
         autoComplete="off"
