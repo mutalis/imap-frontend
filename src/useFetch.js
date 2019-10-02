@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 const fetch = require('node-fetch')
 
-export const useFetch = (configApi={}) => {
+export const useFetch = (initialConfigApi={}) => {
+  const [configApi, setConfigApi] = useState(initialConfigApi)  
   const [data, setData] = useState([])
-  const [error, setError] = useState(null)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     let ignore = false
@@ -16,7 +17,7 @@ export const useFetch = (configApi={}) => {
       .then(checkStatus)
       .then(response => response.json())
       .then(json => {
-        console.log('Json response:',json)
+        console.log('Fetch Json response:',json)
         if (!ignore) setData(json)
       })
       .catch(errorMsg => {
@@ -34,5 +35,5 @@ export const useFetch = (configApi={}) => {
     else return Promise.reject(new Error(response.statusText))
   }
 
-  return [data, error]
+  return [data, error, setConfigApi]
 }
