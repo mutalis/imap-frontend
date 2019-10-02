@@ -1,13 +1,15 @@
 import React from 'react'
-import * as R from 'ramda'
 import { useFormValidation } from './useFormValidation'
 import { emailValidationRules } from './emailValidationRules'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import * as R from 'ramda'
 
 const fetch = require('node-fetch')
 
-export const EmailForm = ({initialEmail={id: null, username: '', quota: 0, password: '', passwordConfirmation: ''}, emails=[], setEmails=R.identity, createEmail=true, resetEmail=R.identity}={}) => {
+const initialE = {id: null, username: '', quota: 0, password: '', passwordConfirmation: ''}
+
+export const EmailForm = ({initialEmail=initialE, emails=[], setEmails=R.identity, createEmail=true, setEmailAction=R.identity}={}) => {
 
   const modifyEmailUrl = emailId => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/${emailId}`
@@ -34,18 +36,17 @@ export const EmailForm = ({initialEmail={id: null, username: '', quota: 0, passw
         },
         body: JSON.stringify(email),
       }
-      console.log('Body payload:',config.body)
+      console.log('Create Body payload:',config.body)
       createEmailUrl()(config)
       // .then(checkStatus)
       .then(response => response.json())
       .then(jsonEmail => {
         setEmails(prevEmails => ([...prevEmails,jsonEmail]))
-        console.log('JsonEmail:',jsonEmail)
+        console.log('Fetch Create JsonEmail:',jsonEmail)
       })
       .catch(error => console.log('Create email error:',error))
     } else { // if user exists, update it
       const payload = {quota: email.quota, ...((email.password) && {password: email.password})}
-      console.log('Body:',payload)
       const config = {
         method: 'PATCH',
         headers: {
@@ -54,18 +55,18 @@ export const EmailForm = ({initialEmail={id: null, username: '', quota: 0, passw
         },
         body: JSON.stringify(payload),
       }
-      console.log('Body payload:',config.body)
+      console.log('Update Body payload:',config.body)
       modifyEmailUrl(email.id)(config)
       .then(checkStatus)
       .then(response => response.json())
       .then(jsonEmail => {
         const updatedEmails = emails.map(c => c.id === jsonEmail.id ? jsonEmail : c)
         setEmails(updatedEmails)
-        console.log('JsonEmail:',jsonEmail)
+        console.log('Fetch Update JsonEmail:',jsonEmail)
       })
       .catch(error => console.log('Update email error:',error))
     }
-    resetEmail()
+    setEmailAction('')
   }
 
   const validate = emailValidationRules(createEmail? 'create': 'update', emails)
@@ -119,7 +120,7 @@ export const EmailForm = ({initialEmail={id: null, username: '', quota: 0, passw
         <Button disabled={isDataSubmitting} className="button-submit" type="submit">
           Submit
         </Button>
-        <Button onClick={() => resetEmail()} className="button-clear" type="button">
+        <Button onClick={() => setEmailAction('')} className="button-clear" type="button">
           Cancel
         </Button>
       </div>

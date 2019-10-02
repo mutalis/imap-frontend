@@ -14,13 +14,16 @@ const validate = emailValidationRules('usernamesearch')
 
 export const EmailList = ({domainName='1'}={}) => {
   const [error, setSearchError] = useState({})
-  const [email, setEmail] = useState({id: null, username: '', quota: 0, password: '', passwordConfirmation: ''})
-  const [showEmailForm, setShowEmailForm] = useState(false)
-  const [createEmail, setCreateEmail] = useState(true)
+  const initialEmail = {id: null, username: '', quota: 0, password: '', passwordConfirmation: ''}
+  const [email, setEmail] = useState(initialEmail)
+  const [emailAction, setEmailAction] = useState('')
   const [query, setQuery] = useState('')
-  const [configApi, setConfigApi] = useState({})
-  const [fetchData, fetchError] = useFetch(configApi)
+  const [fetchData, fetchError, setConfigApi] = useFetch({})
   const [emails, setEmails] = useState([])
+
+  useEffect(() => {
+    setEmails(fetchData)
+  }, [fetchData] )
 
   useEffect(() => {
     let url = ''
@@ -28,11 +31,7 @@ export const EmailList = ({domainName='1'}={}) => {
     : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails?username=${query}`
 
     setConfigApi({url, resourceConfig: {}})
-  }, [domainName, query] )
-
-  useEffect(() => {
-    setEmails(fetchData)
-  }, [fetchData] )
+  }, [query, domainName, setConfigApi] )
 
   const modifyEmailUrl = emailId => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/${emailId}`
@@ -59,14 +58,7 @@ export const EmailList = ({domainName='1'}={}) => {
 
   const initializeEmail = (id, username, quota) => {
     setEmail({id, quota, username, password: '', passwordConfirmation: ''})
-    setShowEmailForm(true)
-    setCreateEmail(false)
-  }
-
-  const resetEmail = () => {
-    setEmail({id: null, username: '', quota: 0, password: '', passwordConfirmation: ''})
-    setShowEmailForm(false)
-    setCreateEmail(true)
+    setEmailAction('update')
   }
 
   const emailComponents = () => emails.map(({id, username, quota}) => {
@@ -86,8 +78,8 @@ export const EmailList = ({domainName='1'}={}) => {
     initialEmail: email,
     emails,
     setEmails,
-    createEmail,
-    resetEmail,
+    createEmail: emailAction === 'create' ? true: false,
+    setEmailAction,
   }
 
   return (
@@ -104,8 +96,8 @@ export const EmailList = ({domainName='1'}={}) => {
         error={Boolean(error.search)}
       />
       <Typography align="center" variant="h5">Email List</Typography>
-      { showEmailForm ? ( <EmailForm {...emailFormProps} />) :
-        ( <AddCircleIcon style={{ color: 'green', float: 'right' }} onClick={() => {setShowEmailForm(true)}} />)
+      { (emailAction !== '') ? ( <EmailForm {...emailFormProps} />) :
+        ( <AddCircleIcon style={{ color: 'green', float: 'right' }} onClick={() => {setEmail(initialEmail);setEmailAction('create')}} />)
       }
       {emailComponents()}
     </div>
