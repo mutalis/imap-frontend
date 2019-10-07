@@ -12,7 +12,7 @@ const fetch = require('node-fetch')
 
 const validate = emailValidationRules('usernamesearch')
 
-export const EmailList = ({domainName='1'}={}) => {
+export const EmailList = ({domainName=''}={}) => {
   const [error, setSearchError] = useState({})
   const initialEmail = {id: null, username: '', quota: 0, password: '', passwordConfirmation: ''}
   const [email, setEmail] = useState(initialEmail)
