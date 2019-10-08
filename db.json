@@ -4,9 +4,9 @@
     { "id": "2", "firstname": "Ana", "lastname": "Flo"}
   ],
   "domains": [
-    { "id": "1", "domainName": "example.com", "quota": 100, "userId": "1"},
-    { "id": "2", "domainName": "test.org", "quota": 200, "userId": "1"},
-    { "id": "3", "domainName": "any.org", "quota": 100, "userId": "2"}
+    { "id": "1", "domainName": "example.com", "emailQuota": 100, "userId": "1"},
+    { "id": "2", "domainName": "test.org", "emailQuota": 200, "userId": "1"},
+    { "id": "3", "domainName": "any.org", "emailQuota": 100, "userId": "2"}
   ],
   "emails": [
     {"id": "1", "username": "user1-lau", "quota": 10, "domainId": "1"},
