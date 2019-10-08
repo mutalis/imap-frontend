@@ -27,6 +27,7 @@ export const EmailForm = ({initialEmail=initialE, emails=[], setEmails=R.identit
   }
 
   const saveEmail = () => {
+    email.quota = Number(email.quota)
     if (createEmail) { // if user doesn't exist, create it
       const config = {
         method: 'POST',

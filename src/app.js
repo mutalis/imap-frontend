@@ -1,6 +1,6 @@
 import React from 'react'
 import { EmailList } from './emailList'
-import { DomainBox } from './domainBox'
+import { DomainList } from './domainList'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import { useDarkMode } from './useDarkMode'
@@ -27,7 +27,7 @@ const App = () => {
         }
         label="Toggle Theme"
       />
-      <DomainBox userId={77} />
+      <DomainList userId={1} />
       <EmailList domainName='1' />
     </ThemeProvider>
   )
