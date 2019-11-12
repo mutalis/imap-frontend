@@ -28,7 +28,7 @@ const App = () => {
         label="Toggle Theme"
       />
       <DomainList userId={1} />
-      <EmailList domainName='1' />
+      {/* <EmailList domainId='1' /> */}
     </ThemeProvider>
   )
 }

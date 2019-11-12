@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import { useFetch } from './useFetch'
 import { domainValidationRules } from './domainValidationRules'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { EmailList } from './emailList'
 
 const fetch = require('node-fetch')
 
@@ -82,7 +84,9 @@ export const DomainList = ({userId=''}={}) => {
   }
 
   return (
+    
     <div className="container">
+      <Router>
       { fetchError && <Typography align="center" variant="h7">Network connection failure</Typography>}
       <TextField
         type="text" 
@@ -98,7 +102,15 @@ export const DomainList = ({userId=''}={}) => {
       { (domainAction !== '') ? ( <DomainForm {...domainFormProps} />) :
         ( <AddCircleIcon style={{ color: 'green', float: 'right' }} onClick={() => {setDomain(initialDomain);setDomainAction('create')}} />)
       }
-      {domainComponents()}
+      
+        {domainComponents()}
+        <Switch>
+        <Route path="/test.org">
+          <EmailList domainId='2' />
+        </Route>
+        </Switch>
+      </Router>
+      
     </div>
   )
 }

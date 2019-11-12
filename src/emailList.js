@@ -12,7 +12,7 @@ const fetch = require('node-fetch')
 
 const validate = emailValidationRules('usernamesearch')
 
-export const EmailList = ({domainName=''}={}) => {
+export const EmailList = ({domainId=''}={}) => {
   const [error, setSearchError] = useState({})
   const initialEmail = {id: null, username: '', quota: 0, password: '', passwordConfirmation: ''}
   const [email, setEmail] = useState(initialEmail)
@@ -27,11 +27,11 @@ export const EmailList = ({domainName=''}={}) => {
 
   useEffect(() => {
     let url = ''
-    query==='' ? url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails`
-    : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainName}/emails?username=${query}`
+    query==='' ? url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainId}/emails`
+    : url = `https://my-json-server.typicode.com/mutalis/imap-frontend/domains/${domainId}/emails?username=${query}`
 
     setConfigApi({url, resourceConfig: {}})
-  }, [query, domainName, setConfigApi] )
+  }, [query, domainId, setConfigApi] )
 
   const modifyEmailUrl = emailId => {
     const url = `https://my-json-server.typicode.com/mutalis/imap-frontend/emails/${emailId}`

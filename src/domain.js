@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import UpdateIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
+import { Link } from 'react-router-dom'
 
 export const Domain = ({id=null, domainName='domainName undefined', emailQuota=0, initializeDomain=R.identity, deleteDomain=R.identity} = {}) => {
 
@@ -25,6 +26,7 @@ export const Domain = ({id=null, domainName='domainName undefined', emailQuota=0
           style={{ color: "red" }}
           onClick={() => deleteDomain(id)}
         />
+        <Link to={domainName}>Emails</Link>
       </div>
     </Card>
   )
