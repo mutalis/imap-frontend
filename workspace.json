@@ -2,6 +2,8 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "api": "apps/api"
+    "api": "apps/api",
+    "imap-frontend": "apps/imap-frontend",
+    "imap-frontend-e2e": "apps/imap-frontend-e2e"
   }
 }
