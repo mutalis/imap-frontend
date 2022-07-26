@@ -4,6 +4,7 @@
   "projects": {
     "api": "apps/api",
     "imap-frontend": "apps/imap-frontend",
-    "imap-frontend-e2e": "apps/imap-frontend-e2e"
+    "imap-frontend-e2e": "apps/imap-frontend-e2e",
+    "shared-types": "libs/shared-types"
   }
 }
