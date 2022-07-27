@@ -1,9 +1,4 @@
-export interface Email {
-  id:       string;
-  username: string;
-  quota:    number;
-  domainId: string;
-}
+import type { Email } from '@email-admin/shared-types';
 
 export const emails: Email[] = [
   {"id": "1", "username": "user1-lau", "quota": 10, "domainId": "1"},
