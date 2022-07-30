@@ -24,7 +24,13 @@ export function Index() {
     <div className={styles.page}>
       <p>
         Search by Username:
-        <input type='text' value={search} onChange={onSetSearch} style={{ border: '2px solid red' }}/>
+        <input
+          type="text"
+          value={search}
+          placeholder="Enter Username"
+          onChange={onSetSearch}
+          style={{ border: '2px solid red' }}
+        />
       </p>
       <ul>
         {emails.map(({ id, username, quota }) => (
