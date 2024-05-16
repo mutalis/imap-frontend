@@ -1,4 +1,4 @@
-
+# On May 16 2024 this project started to use Astro in a new branch.
 
 # EmailAdmin
 
@@ -78,8 +78,6 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
 
 ## ☁ Nx Cloud
 
