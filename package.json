@@ -1,30 +1,21 @@
 {
-  "name": "users-rodolfo-react-projects-imap-frontend",
-  "type": "module",
+  "name": "imap-frontend",
+  "private": true,
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
-    "@astrojs/react": "^3.4.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@nextui-org/react": "^2.4.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "astro": "^4.9.1",
-    "framer-motion": "^11.2.6",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
-    "prettier-plugin-astro": "^0.13.0"
+    "@rsbuild/core": "1.0.0-alpha.9",
+    "@rsbuild/plugin-react": "1.0.0-alpha.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.3"
   }
 }
