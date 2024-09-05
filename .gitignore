@@ -2,8 +2,10 @@
 .DS_Store
 *.local
 *.log*
+*.gz
+*.tgz
 
-# Dist
+# node
 node_modules
 dist/
 
@@ -11,3 +13,13 @@ dist/
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv environment variables file
+.env
+.env.test

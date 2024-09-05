@@ -1,24 +1,22 @@
 {
-  "name": "imap-admin-frontend",
-  "private": true,
+  "name": "trcp-client",
   "version": "0.0.1",
+  "main": "index.js",
   "scripts": {
-    "dev": "rsbuild dev --open",
-    "build": "rsbuild build",
-    "preview": "rsbuild preview"
+    "dev": "node-dev index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@nextui-org/react": "^2.4.6",
-    "framer-motion": "^11.3.21",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@trpc/client": "^10.45.2",
+    "cyrus-imap-api-server": "^0.0.2"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.0.1-beta.6",
-    "@rsbuild/plugin-react": "1.0.1-beta.6",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "tailwindcss": "^3.4.7",
+    "node-dev": "^8.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
 }
